@@ -1,43 +1,84 @@
+## Run Simulation
 
-- Run on bash terminal
+```bash
+iverilog -g2012 -o sim and_gate.sv and_gate_tb.sv
+```
 
-    'iverilog -g2012 -o sim and_gate.sv and_gate_tb.sv'
+- `-g2012` enables SystemVerilog-2012 support.
+- `-o sim` names the output executable.
 
-    > -g2012 enables SystemVerilog-2012 support.
-    > -o names the executable sim.
+```bash
+vvp sim
+```
 
-    ' vvp sim '
-    
-    > a file named wave.vcd will be created
+- Creates `wave.vcd` (if the testbench includes `$dumpfile` and `$dumpvars`).
 
-    ' yosys '
-    > enter yosys shell
+---
 
-    ' read_verilog -sv and_gate.sv '
+## Run Yosys
 
-    ' synth '
+```bash
+yosys
+```
 
-    ' stat '
+Enter the Yosys shell.
 
-    ' exit '
+```bash
+read_verilog -sv and_gate.sv
+```
 
-OR
+```bash
+synth
+```
 
-    ' yosys -p "read_verilog -sv and_gate.sv; synth; stat" '
+```bash
+stat
+```
 
-- GENERATE SCHEMATIC
+```bash
+exit
+```
 
-    ' yosys -p "read_verilog -sv and_gate.sv; proc; opt; show -format dot -prefix schematic" '
+**Or run everything in one command:**
 
-> this creates show.dot
+```bash
+yosys -p "read_verilog -sv and_gate.sv; synth; stat"
+```
 
-convert it to pdf or png
-    ' dot -Tpdf show.dot -o schematic.pdf '
-    ' dot -Tpng show.dot -o schematic.png '
+---
 
-- SAVE THE SYNTHESIZED NETLIST 
-    ' yosys -p "read_verilog -sv counter.sv; synth; write_verilog synthesized.v" '
+## Generate a Schematic
 
-- YOSYS REPORT
+```bash
+yosys -p "read_verilog -sv and_gate.sv; proc; opt; show -format dot -prefix schematic"
+```
 
-    ' yosys -p "read_verilog -sv design.sv; synth; stat" > yosys_report.txt '
+Creates `schematic.dot`.
+
+Convert it to PDF:
+
+```bash
+dot -Tpdf schematic.dot -o schematic.pdf
+```
+
+Or PNG:
+
+```bash
+dot -Tpng schematic.dot -o schematic.png
+```
+
+---
+
+## Save the Synthesized Netlist
+
+```bash
+yosys -p "read_verilog -sv and_gate.sv; synth; write_verilog synthesized.v"
+```
+
+---
+
+## Save the Yosys Report
+
+```bash
+yosys -p "read_verilog -sv and_gate.sv; synth; stat" > yosys_report.txt
+```
