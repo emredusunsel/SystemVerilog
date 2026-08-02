@@ -17,11 +17,13 @@ vvp sim
 
 ## Run Yosys
 
+Enter the Yosys shell.
+
 ```bash
 yosys
 ```
 
-Enter the Yosys shell.
+Then
 
 ```bash
 read_verilog -sv and_gate.sv
