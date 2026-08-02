@@ -25,7 +25,8 @@ OR
 
 - GENERATE SCHEMATIC
 
-    - yosys -p "read_verilog -sv and_gate.sv; proc; opt; show -format dot -prefix schematic"
+    ' yosys -p "read_verilog -sv and_gate.sv; proc; opt; show -format dot -prefix schematic" '
+
 > this creates show.dot
 
 convert it to pdf or png
