@@ -1,11 +1,13 @@
 
 - Run on bash terminal
 
-    ' iverilog -g2012 -o sim and_gate.sv and_gate_tb.sv '
+    'iverilog -g2012 -o sim and_gate.sv and_gate_tb.sv'
+
     > -g2012 enables SystemVerilog-2012 support.
     > -o names the executable sim.
 
     ' vvp sim '
+    
     > a file named wave.vcd will be created
 
     ' yosys '
