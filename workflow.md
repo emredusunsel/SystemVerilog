@@ -51,8 +51,16 @@ yosys -p "read_verilog -sv and_gate.sv; synth; stat"
 
 ## Generate a Schematic
 
+Behavioral logic (before mapping)
+
 ```bash
 yosys -p "read_verilog -sv and_gate.sv; proc; opt; show -format dot -prefix schematic"
+```
+
+Synthesized gate-level netlist
+
+```bash
+yosys -p "read_verilog -sv and_gate.sv; synth; show -format dot -prefix schematic"
 ```
 
 Creates `schematic.dot`.
@@ -84,3 +92,6 @@ yosys -p "read_verilog -sv and_gate.sv; synth; write_verilog synthesized.v"
 ```bash
 yosys -p "read_verilog -sv and_gate.sv; synth; stat" > yosys_report.txt
 ```
+
+
+!!! OpenRoad\OpenLane 2
