@@ -93,5 +93,10 @@ yosys -p "read_verilog -sv and_gate.sv; synth; write_verilog synthesized.v"
 yosys -p "read_verilog -sv and_gate.sv; synth; stat" > yosys_report.txt
 ```
 
+Only stat
+
+```bash
+yosys -p "read_verilog -sv and_gate.sv; synth; tee -o yosys_stat.txt stat"
+```
 
 !!! OpenRoad\OpenLane 2

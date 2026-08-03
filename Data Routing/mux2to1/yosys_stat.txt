@@ -1,0 +1,16 @@
+
+3. Printing statistics.
+
+=== mux ===
+
+        +----------Local Count, excluding submodules.
+        | 
+        4 wires
+        4 wire bits
+        4 public wires
+        4 public wire bits
+        4 ports
+        4 port bits
+        1 cells
+        1   $_MUX_
+
