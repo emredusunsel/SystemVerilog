@@ -1,0 +1,17 @@
+
+3. Printing statistics.
+
+=== half_adder ===
+
+        +----------Local Count, excluding submodules.
+        | 
+        4 wires
+        4 wire bits
+        4 public wires
+        4 public wire bits
+        4 ports
+        4 port bits
+        2 cells
+        1   $_AND_
+        1   $_XOR_
+

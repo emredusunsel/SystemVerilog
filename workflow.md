@@ -63,6 +63,11 @@ Synthesized gate-level netlist
 yosys -p "read_verilog -sv and_gate.sv; synth; show -format dot -prefix schematic"
 ```
 
+```bash
+yosys -p "read_verilog -sv full_adder.sv adder4.sv; synth -top adder4; show -format dot -prefix schematic"
+```
+
+
 Creates `schematic.dot`.
 
 Convert it to PDF:
