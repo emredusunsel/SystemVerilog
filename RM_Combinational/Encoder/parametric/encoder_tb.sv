@@ -5,7 +5,7 @@ module encoder_tb;
     localparam WIDTH   = 8;
     localparam Y_WIDTH = $clog2(WIDTH);
 
-    logic [. WIDTH-1:0] d;
+    logic [  WIDTH-1:0] d;
     logic [Y_WIDTH-1:0] y;
     logic valid;
 
