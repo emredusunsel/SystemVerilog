@@ -1,7 +1,7 @@
 ## Run Simulation
 
 ```bash
-iverilog -g2012 -o sim and_gate.sv and_gate_tb.sv
+iverilog -g2012 -o sim *.sv
 ```
 
 - `-g2012` enables SystemVerilog-2012 support.
