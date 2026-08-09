@@ -35,3 +35,8 @@ Communication
 Processor
 ---------
 ✓ RISC-V
+
+
+grey counter
+sequence detector
+pattern detector
