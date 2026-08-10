@@ -40,3 +40,17 @@ Processor
 grey counter
 sequence detector
 pattern detector
+
+
+edge detectors pos neg
+async edge detect
+
+sync ram
+
+lifo
+fwft fifo
+
+clock generation
+debouncer
+
+parametric mux
