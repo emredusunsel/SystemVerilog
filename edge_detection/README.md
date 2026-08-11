@@ -71,19 +71,14 @@ ne = 1
 
 Both outputs are normally `0` and become high for one clock cycle when their corresponding edge is detected.
 
-## Example
+## Example Instantiation
 
 ```systemverilog
-logic clk;
-logic signal;
-logic pe;
-logic ne;
-
 sync_det dut (
-    .clk    (clk),
-    .signal (signal),
-    .pe     (pe),
-    .ne     (ne)
+    .clk    (),
+    .signal (),
+    .pe     (),
+    .ne     ()
 );
 ```
 

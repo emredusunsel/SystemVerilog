@@ -45,21 +45,15 @@ The flip-flop is implemented using `always_ff` with:
 
 When `en` is low, there is no assignment to `q`, so the flip-flop retains its previous value.
 
-## Example
+## Example Instantiation
 
 ```systemverilog
-logic clk;
-logic rstn;
-logic en;
-logic d;
-logic q;
-
 dff dut (
-    .clk  (clk),
-    .rstn (rstn),
-    .en   (en),
-    .d    (d),
-    .q    (q)
+    .clk  (),
+    .rstn (),
+    .en   (),
+    .d    (),
+    .q    ()
 );
 ```
 

@@ -63,24 +63,24 @@ The new `serial_in` bit enters from the **LSB side**.
 |    1   |   0  | Hold current value       |
 |    1   |   1  | Shift according to `dir` |
 
-## Example
+## Example Instantiation
 
 ```systemverilog
-logic [7:0] q;
-
 shift_register #(
     .WIDTH(8)
 ) dut (
-    .clk       (clk),
-    .rstn      (rstn),
-    .en        (en),
-    .serial_in (serial_in),
-    .dir       (dir),
-    .q         (q)
+    .clk       (),
+    .rstn      (),
+    .en        (),
+    .serial_in (),
+    .dir       (),
+    .q         ()
 );
 ```
 
-For example, with:
+## Example
+
+With:
 
 ```text
 q         = 10110010

@@ -72,19 +72,15 @@ shamt[2] → rotate by 4
 
 The stages are generated using a `generate` loop, making the structure parameterized by `WIDTH`.
 
-## Example
+## Example Instantiation
 
 ```systemverilog id="f2j7na"
-logic [7:0] data;
-logic [2:0] shamt;
-logic [7:0] result;
-
 barrel #(
     .WIDTH(8)
 ) dut (
-    .data   (data),
-    .shamt  (shamt),
-    .result (result)
+    .data   (),
+    .shamt  (),
+    .result ()
 );
 ```
 

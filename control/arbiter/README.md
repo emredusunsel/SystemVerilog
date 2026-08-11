@@ -67,17 +67,14 @@ A `priority_flag` tracks whether a request has already been granted:
 
 This guarantees that `grant` is either all zeros or one-hot.
 
-## Example
+## Example Instantiation
 
 ```systemverilog id="a4q5tz"
-logic [7:0] req;
-logic [7:0] grant;
-
 arbiter #(
     .WIDTH(8)
 ) dut (
-    .req   (req),
-    .grant (grant)
+    .req   (),
+    .grant ()
 );
 ```
 

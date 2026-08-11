@@ -11,8 +11,6 @@ Data is written when `wr_en` is asserted and the FIFO is not full. Data is read 
 * Parameterized data width and depth
 * Synchronous read and write
 * `full` and `empty` status flags
-* Separate read and write pointers
-* Internal occupancy counter
 * Active-low asynchronous reset
 * Fully synthesizable
 
@@ -43,7 +41,7 @@ Data is written when `wr_en` is asserted and the FIFO is not full. Data is read 
 A write occurs when:
 
 ```text
-wr_en = 1 && full = 0
+wr_en & !full
 ```
 
 `data_i` is stored at the current write pointer, and the write pointer advances.
@@ -53,7 +51,7 @@ wr_en = 1 && full = 0
 A read occurs when:
 
 ```text
-rd_en = 1 && empty = 0
+rd_en & !empty
 ```
 
 The data at the current read pointer is placed on `data_o`, and the read pointer advances.
@@ -87,30 +85,21 @@ The counter is updated according to the successful read/write operations:
 
 A simultaneous valid read and write therefore keeps the FIFO occupancy unchanged.
 
-## Example
+## Example Instantiation
 
 ```systemverilog
-logic        clk;
-logic        rstn;
-logic [7:0]  data_i;
-logic        wr_en;
-logic        rd_en;
-logic [7:0]  data_o;
-logic        empty;
-logic        full;
-
 fifo #(
     .WIDTH (8),
     .DEPTH (16)
 ) dut (
-    .clk    (clk),
-    .rstn   (rstn),
-    .data_i (data_i),
-    .wr_en  (wr_en),
-    .rd_en  (rd_en),
-    .data_o (data_o),
-    .empty  (empty),
-    .full   (full)
+    .clk    (),
+    .rstn   (),
+    .data_i (),
+    .wr_en  (),
+    .rd_en  (),
+    .data_o (),
+    .empty  (),
+    .full   ()
 );
 ```
 

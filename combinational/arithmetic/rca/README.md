@@ -67,28 +67,23 @@ cin → FA[0] → FA[1] → FA[2] → ... → FA[WIDTH-1] → cout
 
 Each generated `full_adder` operates on one bit of `a` and `b`.
 
-* `carry[0]` is connected to `cin`.
+* `carry[i]` is connected to `cin[i]`.
 * Each full adder generates the carry for the next stage.
 * `carry[WIDTH]` becomes `cout`.
 
 The `generate` loop allows the same structure to be created automatically for any supported `WIDTH`.
 
-## Example
+## Example Instantiation
 
 ```systemverilog
-logic [7:0] a, b;
-logic cin;
-logic [7:0] s;
-logic cout;
-
 rca #(
     .WIDTH(8)
 ) dut (
-    .a    (a),
-    .b    (b),
-    .cin  (cin),
-    .s    (s),
-    .cout (cout)
+    .a    (),
+    .b    (),
+    .cin  (),
+    .s    (),
+    .cout ()
 );
 ```
 

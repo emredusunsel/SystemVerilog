@@ -73,24 +73,23 @@ The FSM is divided into three parts:
 
 Since the outputs depend only on the state, this is a **Moore FSM**.
 
-## Example
+## Example Instantiation
 
 ```systemverilog
 fsm dut (
-    .clk   (clk),
-    .rstn  (rstn),
-    .start (start),
-    .done  (done),
-    .error (error),
-    .busy  (busy),
-    .valid (valid),
-    .fault (fault)
+    .clk   (),
+    .rstn  (),
+    .start (),
+    .done  (),
+    .error (),
+    .busy  (),
+    .valid (),
+    .fault ()
 );
 ```
 
 ## Notes
 
 * `rstn` is active-low and asynchronously resets the FSM to `IDLE`.
-* `busy`, `valid`, and `fault` are mutually exclusive.
 * `DONE` and `ERROR` are one-cycle states before returning to `IDLE`.
 * The FSM is fully synthesizable.

@@ -23,11 +23,11 @@ The number of inputs is configurable through the `INPUTS` parameter.
 
 ## Interface
 
-| Signal | Direction |            Width | Description                            |
-| ------ | --------- | ---------------: | -------------------------------------- |
-| `in`   | Input     | `WIDTH × INPUTS` | Array of input vectors                 |
-| `sel`  | Input     | `$clog2(INPUTS)` | Selects which input is passed to `out` |
-| `out`  | Output    |          `WIDTH` | Selected input                         |
+|    Signal    | Direction |            Width | Description                            |
+| ------------ | --------- | ---------------: | -------------------------------------- |
+| `in[INPUTS]` | Input     |          `WIDTH` | Array of input vectors                 |
+| `sel`        | Input     | `$clog2(INPUTS)` | Selects which input is passed to `out` |
+| `out`        | Output    |          `WIDTH` | Selected input                         |
 
 ## Functionality
 
@@ -66,20 +66,16 @@ assign out = in[sel];
 
 This allows the synthesizer to implement the required multiplexer logic.
 
-## Example
+## Example Instantiation
 
 ```systemverilog
-logic [7:0] in [4];
-logic [1:0] sel;
-logic [7:0] out;
-
 mux #(
     .WIDTH  (8),
     .INPUTS (4)
 ) dut (
-    .in  (in),
-    .sel (sel),
-    .out (out)
+    .in  (),
+    .sel (),
+    .out ()
 );
 ```
 

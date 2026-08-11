@@ -42,21 +42,18 @@ The register captures `in` on the rising edge of `clk` when `en` is asserted.
 
 The reset has priority over the enable.
 
-## Example
+## Example Instantiation
 
 ```systemverilog
-logic [15:0] data_in;
-logic [15:0] data_out;
-
 register #(
     .WIDTH      (16),
     .RESET_VALUE(16'h1234)
 ) dut (
-    .clk  (clk),
-    .rstn (rstn),
-    .en   (en),
-    .in   (data_in),
-    .out  (data_out)
+    .clk  (),
+    .rstn (),
+    .en   (),
+    .in   (),
+    .out  ()
 );
 ```
 
