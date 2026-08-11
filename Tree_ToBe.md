@@ -5,52 +5,59 @@ rtl/
 │   ├── arithmetic/
 │   │   ├── full_adder.sv
 │   │   ├── rca.sv
-│   │   └── alu.sv              ** WRITE
+│   │   └── alu.sv                  ** WRITE YOUR OWN TB
 │   │
 │   ├── mux/
 │   │   └── mux.sv
 │   │
-│   ├── barrel_shifter/             ** HAS 2 VERSIONS. MAKE IT ONE GOOD PARAMETRIC ONE
+│   ├── barrel_shifter/
 │   │   └── barrel_shifter.sv
 │   │
 │   ├── comparator/
-│   │   └── comparator.sv           ** MAKE IT PARAMETRIC
+│   │   └── comparator.sv
 │   │
 │   ├── decoder/
-│   │   └── decoder.sv              ** MAKE PARAMETRIC
+│   │   └── decoder.sv
 │   │
 │   └── encoder/
-│   |   └── priority_encoder.sv     ** MAKE PARAMETRIC PRIORITY ENCODER
+│   |   └── priority_encoder.sv
 |   |
-|   └── mux/                        ** WRITE
+|   └── mux/
 |       └── mux.sv 
 │
 ├── sequential/
 │   │
 │   ├── flip_flop/
-│   │   └── dff.sv                  ** MAKE 1 BIT
+│   │   └── dff.sv
 │   │
 │   ├── register/
-│   │   └── register.sv             ** DOESNT HAVE TB
+│   │   └── register.sv
 │   │
 │   ├── counter/
-│   │   └── counter.sv              ** ADD UP/DOWN
+│   │   └── counter.sv
 │   │
 │   └── shift_register/
 │       └── shift_register.sv
 │
 ├── control/
 │   ├── fsm.sv
-│   ├── sequence_detector.sv        ** pick between sequence and pattern (parametric by sequence?)
-│   └── arbiter.sv                  ** WRITE
+│   ├── sequence_detector.sv
+│   └── arbiter.sv
 │
 ├── edge_detection/
 │   └── sync_edge_detector.sv
 │
-├── cdc/                            ** WRITE
-│   └── synchronizer.sv
+├── cdc/
+│   └── sync_2ff.sv
 │   └── handshake_sync.sv           ** LATER
+|   ├── pulse_sync.sv               ** WRITE
+|   └── aysnc_fifo.sv               ** WRITE BUT CHECK FOLDER LOCATION
 │
 └── memory/
-    ├── fifo.sv                     ** MAYBE ADD asnc_fifo
-    └── single_port_ram.sv          ** MAYBE ADD dual_port_ram
+|   ├── fifo.sv                     ** MAYBE ADD asnc_fifo
+|   └── single_port_ram.sv          ** MAYBE ADD dual_port_ram
+│
+└── intefaces/                      ** ADD THESE
+    ├── uart.sv
+    └── spi.sv
+    ├── i2c.sv

@@ -1,12 +1,10 @@
 
-module dff #(
-    parameter int WIDTH = 4
-) (
-    input   logic               clk,
-    input   logic               rstn,
-    input   logic               en,
-    input   logic   [WIDTH-1:0] d,
-    output  logic   [WIDTH-1:0] q
+module dff (
+    input   logic   clk,
+    input   logic   rstn,
+    input   logic   en,
+    input   logic   d,
+    output  logic   q
 );
 
     always_ff @(posedge clk or negedge rstn) begin : dflipflop

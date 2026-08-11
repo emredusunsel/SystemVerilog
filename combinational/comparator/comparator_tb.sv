@@ -2,31 +2,52 @@
 
 module comparator_tb;
 
-    logic [7:0] a, b;
+    localparam WIDTH = 8;
+
+    logic [WIDTH-1:0] a, b;
     logic eq, gt, lt;
 
     comparator dut(
-        .a(a),
-        .b(b),
-        .eq(eq),
-        .gt(gt),
-        .lt(lt)
+        .a  (a),
+        .b  (b),
+        .eq (eq),
+        .gt (gt),
+        .lt (lt)
     );
 
+    task automatic fill(input logic [WIDTH-1:0] data_a, 
+                        input logic [WIDTH-1:0] data_b);
+        #5;
+
+        a = data_a;
+        b = data_b;
+
+        #5;
+    endtask
+
+    task automatic check();
+        $display("a=%b | b=%b || eq=%b gt=%b lt=%b",
+                a, b, eq, gt, lt);
+    endtask
+
     initial begin
-        $dumpfile("wave.vcd");
-        $dumpvars(0, comparator_tb);
 
-        $display(" Time      a          b   eq  gt  lt");
-        $monitor("%4t   %d   %d    %b   %b  %b", $time, a, b, eq, gt, lt);
-
-        a = 0; b = 0; #10;
-        a = 5; b = 5; #10;
-        a = 10; b = 3; #10;
-        a = 3; b = 10; #10;
-        a = 8'hFF; b = 8'hFF; #10;
-        a = 8'hFF; b = 0; #10;
-        a = 0; b = 8'hFF; #10;
+        fill($urandom, $urandom);
+        check();
+        fill($urandom, $urandom);
+        check();
+        fill($urandom, $urandom);
+        check();
+        fill($urandom, $urandom);
+        check();
+        fill($urandom, $urandom);
+        check();
+        fill($urandom, $urandom);
+        check();
+        fill({WIDTH{1'b1}}, {WIDTH{1'b1}});
+        check();
+        fill({1'b1, $urandom}, $urandom);
+        check();
 
         $finish;
     end

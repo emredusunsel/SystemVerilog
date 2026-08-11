@@ -2,45 +2,36 @@
 
 module dff_tb;
 
-    localparam int WIDTH = 4;
+    logic clk, rstn, en, d, q;
 
-    localparam logic [WIDTH-1:0] DATA0 = 'hA;
-    localparam logic [WIDTH-1:0] DATA1 = 'hC;
-    localparam logic [WIDTH-1:0] DATA2 = 'h3;
-    localparam logic [WIDTH-1:0] DATA3 = '1;
-
-    logic               clk, rstn, en;
-    logic [WIDTH-1:0]   d, q;
-
-    // DUT
-    dff #(.WIDTH(WIDTH)) dut(
-        .clk  (clk),
-        .rstn (rstn),
-        .en   (en),
-        .d    (d),
-        .q    (q)
+    dff dut(
+        .clk    (clk),
+        .rstn   (rstn),
+        .en     (en),
+        .d      (d),
+        .q      (q)
     );
 
     initial clk = 0;
     always #5 clk = ~clk;
 
-    task automatic check_q(input logic [WIDTH-1:0] expected);
+    task automatic check_q(input logic expected);
         #1;    // Wait for non-blocking assignment update
 
         assert (q == expected)
-            else $fatal(1, "FAIL @ %0t ns: Expected q = %h, Got q = %h",
+            else $fatal(1, "FAIL @ %0t ns: Expected q = %b, Got q = %b",
                         $time, expected, q);
 
-        $display("PASS @ %0t ns: q = %h",
+        $display("PASS @ %0t ns: q = %b",
                 $time, q);
     endtask
 
     initial begin
         $display("===== DFF TEST START =====");
 
-        rstn = 0;
-        en   = 0;
-        d    = '0;
+        rstn  = 0;
+        en    = 0;
+        d     = 0;
 
         // ----------------------------
         // Test 1 : Asynchronous Reset
@@ -53,30 +44,30 @@ module dff_tb;
         rstn = 1;
 
         // ----------------------------
-        // Test 2 : Load DATA0
+        // Test 2 : Load 1
         // ----------------------------
         en = 1;
-        d  = DATA0;
+        d  = 1;
 
         @(posedge clk);
-        check_q(DATA0);
+        check_q(1);
 
         // ----------------------------
-        // Test 3 : Load DATA1
+        // Test 3 : Load 0
         // ----------------------------
-        d = DATA1;
+        d = 0;
 
         @(posedge clk);
-        check_q(DATA1);
+        check_q(0);
 
         // ----------------------------
         // Test 4 : Hold value
         // ----------------------------
         en = 0;
-        d  = DATA2;
+        d  = 1;
 
         @(posedge clk);
-        check_q(DATA1);
+        check_q(0);
 
         // ----------------------------
         // Test 5 : Enable again
@@ -84,7 +75,7 @@ module dff_tb;
         en = 1;
 
         @(posedge clk);
-        check_q(DATA2);
+        check_q(1);
 
         // ----------------------------
         // Test 6 : Async reset during operation
@@ -92,16 +83,16 @@ module dff_tb;
         #2;
         rstn = 0;
 
-        check_q('0);
+        check_q(0);
 
         // ----------------------------
         // Test 7 : Operate after reset
         // ----------------------------
         rstn = 1;
-        d    = DATA3;
+        d    = 1;
 
         @(posedge clk);
-        check_q(DATA3);
+        check_q(1);
 
         $display("\n===== ALL TESTS PASSED =====");
         $finish;

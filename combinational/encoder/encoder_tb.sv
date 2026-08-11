@@ -2,35 +2,44 @@
 
 module encoder_tb;
 
-    logic [7:0] d;
-    logic [2:0] y;
+    localparam WIDTH = 8;
+
+    logic [WIDTH-1:0] data;
+    logic [$clog2(WIDTH)-1:0] encoded;
     logic valid;
 
     encoder dut(
-        .d(d),
-        .y(y),
-        .valid(valid)
+        .data   (data),
+        .encoded(encoded),
+        .valid  (valid)
     );
 
-    integer i;
+    task automatic check(logic [$clog2(WIDTH)-1:0] expected);
+        if (encoded == expected)
+            $display("PASS: data=%b, encoded=%d, valid=%b", data, encoded, valid);
+        else
+            $display("FAIL: expected=%d, encoded=%d, data=%b", expected, encoded, data);
+    endtask
 
     initial begin
-        // Create waveform file
-        $dumpfile("wave.vcd");
-        $dumpvars(0, encoder_tb);
-
-        // Print values whenever they change
-        $monitor("Time=%0t  d=%02h  y=%d  valid=%b", $time, d, y, valid);
 
         // Apply test vectors
-        for (i = 0; i < 8; i++) begin
-            d = 8'b1 << i;
-            #10;
+        for (int i = 0; i < 8; i++) begin
+            data = 8'b1 << i;
+            #1;
+            check(i);
         end
         
-        d = 8'b01010101; #10;
-        d = 8'b00010011; #10;
-        d = '0; #10;
+        data = 8'b01010101; #1;
+        check(6);
+        data = 8'b00010011; #1;
+        check(4);
+        data = '0; #1;
+        check(0);
+        if(!valid)
+            $display("VALID PASS");
+        else
+            $display("FAIL: VALID");
 
         $finish;
     end

@@ -2,34 +2,34 @@
 
 module decoder_tb;
 
-    logic [2:0] addr;
-    logic en;
-    logic [7:0] y;
+    localparam WIDTH = 8;
+    localparam DEPTH = $clog2(WIDTH);
 
-    decoder dut(
-        .addr(addr),
-        .en(en),
-        .y(y)
+    logic [DEPTH-1:0] addr;
+    logic en;
+    logic [WIDTH-1:0] y;
+
+    decoder #(
+        .WIDTH(WIDTH), .DEPTH(DEPTH)
+    ) dut (
+        .addr   (addr),
+        .en     (en),
+        .y      (y)
     );
 
-    integer i;
-
     initial begin
-        // Create waveform file
-        $dumpfile("wave.vcd");
-        $dumpvars(0, decoder_tb);
-
         // Print values whenever they change
-        $monitor("Time=%0t  addr=%d  en=%d  y=%b", $time, addr, en, y);
+        $display("Time\t addr en  y");
+        $monitor("%0t\t  %d    %d  %b", $time, addr, en, y);
 
         // Apply test vectors
-        for (i = 0; i < 8; i++) begin
+        for (int i = 0; i < WIDTH; i++) begin
             addr = i;
             en = 1;
-            #10;
+            #1;
         end
 
-        addr = 3'd5; en = 0; #10;
+        addr = {{WIDTH}{1'b1}}; en = 0; #10;
         
         $finish;
     end

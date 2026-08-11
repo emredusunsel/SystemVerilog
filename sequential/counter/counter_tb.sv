@@ -4,42 +4,50 @@ module counter_tb;
 
     localparam int WIDTH = 4;
 
-    logic             clk, rstn, en;
+    logic clk, rstn, en, ud;
     logic [WIDTH-1:0] q;
 
     counter #(
         .WIDTH(WIDTH)
     ) dut (
-        .clk(clk),
-        .rstn(rstn),
-        .en(en),
-        .q(q)
+        .clk    (clk),
+        .rstn   (rstn),
+        .en     (en),
+        .ud     (ud),
+        .q      (q)
     );
 
     initial clk = 0;
     always #5 clk = ~clk;
 
     initial begin
-        $display("Time\t rstn en q");
-        $monitor("%0t\t %b    %b  %d",
-                 $time, rstn, en, q);
+        $display("Time\t rstn en ud q");
+        $monitor("%0t\t %b    %b  %b  %d",
+                 $time, rstn, en, ud, q);
 
         // Reset
-        rstn = 0;
-        en   = 0;
+        rstn    = 0;
+        en      = 0;
+        ud      = 0;
 
         #10;
 
         // Release reset
         rstn = 1;
 
-        // Count
+        // Count up
         en = 1;
-        #200;
+        repeat(20) #10;
 
         // Hold
         en = 0;
         #20;
+
+        ud = 1;
+
+        // Count down
+        en = 1;
+        repeat(20) #10;
 
         $finish;
     end

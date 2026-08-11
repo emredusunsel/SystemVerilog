@@ -5,14 +5,19 @@ module counter #(
     input   logic               clk,
     input   logic               rstn,
     input   logic               en,
-    output  logic   [WIDTH-1:0] q 
+    input   logic               ud,   // 0: up count, 1: down count
+    output  logic   [WIDTH-1:0] q
 );
 
     always_ff @(posedge clk or negedge rstn) begin : count_ff
         if (!rstn)
             q <= '0;
-        else if (en)
-            q <= q + 1'b1;
+        else if (en) begin
+            if (!ud)
+                q <= q + 1'b1;
+            else
+                q <= q - 1'b1;
+        end
     end
 
 endmodule

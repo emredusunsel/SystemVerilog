@@ -1,45 +1,40 @@
-## Arithmetic
 
-- Full Adder
-- Half Adder
+## cdc
 
-## RM_Combinational
+## combinational
 
-- Barrel Shifter
-- - Parametric
-- - Non-Parametric without generate
-- Comparator (Non Parametric)
-- Decoder (Non Parametric)
-- Encoder
-- - Parametric
-- - Priority (Non Parametric)
-- RCA (parametric)
+- arithmetic
+    - alu (arithmetic logic unit)
+    - full adder
+    - rca (ripple carry adder)
+- barrel shifter
+- comparator
+- decoder
+- encoder
+- mux (multiplexer)
 
-## RM_Control
+## control
 
-- FSM
-- Pattern Detector
-- Sequence Detector
+- arbiter
+- fsm (finite state machine)
+- sequence detector
 
-## RM_Edge_Detection
+## edge detection
 
-- Positive-Negative Edge Detector (not sync)
-- Synchronized Pos-Neg Edge Detector
+synchronous edge detector
 
-## RM_Memory
+## examples
 
-- FIFO
-- Single Port Synchronized RAM
+- pattern detector
 
-## RM_Sequential
+## memory
 
-- Counter
-- - Grey (parametric)
-- - Parametric
-- - Ripple (parametric)
-- D Flip Flop (parametric)
-- JK Flip Flop (1-bit)
-- Register (Parametric)
-- Shift Register (parametric)
-- T Flip Flop (non parametric)
+- fifo (first in first out)
+- single port ram (synchronous)
 
+## sequential
+
+- counter
+- flip flop (D Flip Flop)
+- register
+- shift register
