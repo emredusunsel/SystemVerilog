@@ -1,9 +1,5 @@
 # Verilog
-Verilog modules.
-
-test 
-s
-s
+SystemVerilog modules.
 
 # Module Name
 
@@ -42,7 +38,7 @@ Explain how the module works, including priority rules, edge cases, and implemen
 - Limitations (if any)
 
 
-Depending on the module, I'll also include sections like:
+Include sections like:
 Truth Table (decoder, encoder, comparator, logic gates)
 Timing Behavior (flip-flops, registers, counters)
 State Diagram / State Table (FSMs)
