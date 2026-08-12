@@ -10,15 +10,72 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 <!-- PROGRESS:START -->
 
-**Overall Progress: 0%**
+**Overall Progress: 67%**
 
-`░░░░░░░░░░░░░░░░░░░░` 0%
+`█████████████░░░░░░░` 67%
 
-**Total: 0 / 0 completed**
+**Total: 2 / 3 completed**
 
 ### Category Progress
 
+- **Combinational: 0%** (0/0)
+- **Sequential: 0%** (0/0)
+- **Control: 0%** (0/0)
+- **Memory: 0%** (0/0)
+- **CDC: 0%** (0/0)
+- **Interfaces: 67%** (2/3)
+
 ### Module Progress
+
+#### Combinational
+
+- **AND Gate: 0%** (0/0)
+- **OR Gate: 0%** (0/0)
+- **XOR Gate: 0%** (0/0)
+- **NOT Gate: 0%** (0/0)
+- **MUX: 0%** (0/0)
+- **Decoder: 0%** (0/0)
+- **Encoder: 0%** (0/0)
+- **Priority Encoder: 0%** (0/0)
+- **Comparator: 0%** (0/0)
+- **Full Adder: 0%** (0/0)
+- **Ripple Carry Adder: 0%** (0/0)
+- **Barrel Shifter: 0%** (0/0)
+- **ALU: 0%** (0/0)
+
+#### Sequential
+
+- **D Flip-Flop: 0%** (0/0)
+- **Register: 0%** (0/0)
+- **Counter: 0%** (0/0)
+- **Shift Register: 0%** (0/0)
+
+#### Control
+
+- **FSM: 0%** (0/0)
+- **Sequence Detector: 0%** (0/0)
+- **Arbiter: 0%** (0/0)
+
+#### Memory
+
+- **Single-Port RAM: 0%** (0/0)
+- **FIFO: 0%** (0/0)
+- **FWFT FIFO: 0%** (0/0)
+- **Async FIFO: 0%** (0/0)
+
+#### CDC
+
+- **2FF Synchronizer: 0%** (0/0)
+- **Pulse Synchronizer: 0%** (0/0)
+- **Handshake Synchronizer: 0%** (0/0)
+
+#### Interfaces
+
+- **UART TX: 0%** (0/0)
+- **UART RX: 0%** (0/0)
+- **SPI: 0%** (0/0)
+- **I2C: 0%** (0/0)
+- **FIFO: 67%** (2/3)
 
 <!-- PROGRESS:END -->
 
