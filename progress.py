@@ -5,6 +5,7 @@ import re
 
 
 README = Path("README.md")
+PROGRESS = Path("PROGRESS.md")
 
 START = "<!-- PROGRESS:START -->"
 END = "<!-- PROGRESS:END -->"
@@ -24,43 +25,28 @@ def progress_bar(value, width=20):
 
 def parse_modules(text):
     """
-    Parse the module section of README.md.
+    Parse categories, modules, and checkboxes from PROGRESS.md.
 
     Expected structure:
-
-    # Modules
 
     ## Combinational
 
     ### MUX
 
-    * [X] RTL
-    * [X] Testbench
-    * [ ] README
+    - [x] RTL
+    - [x] Testbench
+    - [ ] README
 
-    Both '*' and '-' list markers are supported.
+    Both '-' and '*' list markers are supported.
     Both '[x]' and '[X]' are supported.
     """
 
     modules = {}
 
-    # Find the "# Modules" section.
-    modules_match = re.search(
-        r"(?ms)^# Modules\s*\n(.*?)(?=^# (?!#)|\Z)",
-        text,
-    )
-
-    if not modules_match:
-        raise RuntimeError(
-            "Could not find '# Modules' section in README.md."
-        )
-
-    module_text = modules_match.group(1)
-
     current_category = None
     current_module = None
 
-    for line in module_text.splitlines():
+    for line in text.splitlines():
 
         # --------------------------------------------------
         # Category
@@ -108,17 +94,17 @@ def parse_modules(text):
         #
         # Supports:
         #
-        # * [ ] RTL
-        # * [x] RTL
-        # * [X] RTL
-        #
         # - [ ] RTL
         # - [x] RTL
         # - [X] RTL
+        #
+        # * [ ] RTL
+        # * [x] RTL
+        # * [X] RTL
         # --------------------------------------------------
 
         checkbox_match = re.match(
-            r"^\s*[-*]\s*\[([ xX])\]\s+(.+?)\s*$",
+            r"^\s*[-*]\s+\[([ xX])\]\s+(.+?)\s*$",
             line,
         )
 
@@ -128,9 +114,7 @@ def parse_modules(text):
             and current_module
         ):
 
-            checked = (
-                checkbox_match.group(1).lower() == "x"
-            )
+            checked = checkbox_match.group(1).lower() == "x"
 
             modules[current_category][current_module]["total"] += 1
 
@@ -269,7 +253,18 @@ def generate_progress(modules):
 
 def main():
 
-    text = README.read_text(encoding="utf-8")
+    # ======================================================
+    # Read files
+    # ======================================================
+
+    if not README.exists():
+        raise RuntimeError("README.md not found.")
+
+    if not PROGRESS.exists():
+        raise RuntimeError("PROGRESS.md not found.")
+
+    readme_text = README.read_text(encoding="utf-8")
+    progress_text = PROGRESS.read_text(encoding="utf-8")
 
     # ======================================================
     # Find generated progress section
@@ -280,30 +275,21 @@ def main():
         re.DOTALL,
     )
 
-    if not progress_pattern.search(text):
+    if not progress_pattern.search(readme_text):
         raise RuntimeError(
             "Could not find PROGRESS:START / PROGRESS:END "
             "markers in README.md."
         )
 
-    # Remove generated progress before parsing.
-    text_without_progress = progress_pattern.sub(
-        "",
-        text,
-    )
-
     # ======================================================
-    # Parse modules
+    # Parse PROGRESS.md
     # ======================================================
 
-    modules = parse_modules(
-        text_without_progress
-    )
+    modules = parse_modules(progress_text)
 
     if not modules:
         raise RuntimeError(
-            "No categories/modules were found under "
-            "'# Modules'."
+            "No categories/modules were found in PROGRESS.md."
         )
 
     # ======================================================
@@ -313,12 +299,12 @@ def main():
     progress = generate_progress(modules)
 
     # ======================================================
-    # Replace generated section
+    # Replace generated section in README.md
     # ======================================================
 
     new_text, replacements = progress_pattern.subn(
         progress,
-        text,
+        readme_text,
         count=1,
     )
 
