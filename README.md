@@ -10,22 +10,29 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 <!-- PROGRESS:START -->
 
-**Overall Progress: 67%**
+**Overall Progress: 49%**
 
-`█████████████░░░░░░░` 67%
+`██████████░░░░░░░░░░` 49%
 
-**Total: 2 / 3 completed**
+**Total: 40 / 81 completed**
 
 ### Category Progress
 
-- **Combinational: 0%** (0/0)
-- **Sequential: 0%** (0/0)
-- **Control: 0%** (0/0)
-- **Memory: 0%** (0/0)
-- **CDC: 0%** (0/0)
-- **Interfaces: 67%** (2/3)
+- **CDC: 0%** (0/9)
+- **Combinational: 62%** (15/24)
+- **Control: 67%** (6/9)
+- **Edge Detection: 100%** (3/3)
+- **Interfaces: 13%** (2/15)
+- **Memory: 67%** (6/9)
+- **Sequential: 67%** (8/12)
 
 ### Module Progress
+
+#### CDC
+
+- **Pulse Synchronizer: 0%** (0/3)
+- **2FF Synchronizer: 0%** (0/3)
+- **Handshake Synchronizer: 0%** (0/3)
 
 #### Combinational
 
@@ -48,30 +55,32 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 #### Control
 
-- **FSM: 0%** (0/0)
-- **Sequence Detector: 0%** (0/0)
-- **Arbiter: 0%** (0/0)
+- **Arbiter: 100%** (3/3)
+- **FSM: 100%** (3/3)
+- **Sequence Detector: 0%** (0/3)
 
-#### Memory
+#### Edge Detection
 
-- **Single-Port RAM: 0%** (0/0)
-- **FIFO: 0%** (0/0)
-- **FWFT FIFO: 0%** (0/0)
-- **Async FIFO: 0%** (0/0)
-
-#### CDC
-
-- **2FF Synchronizer: 0%** (0/0)
-- **Pulse Synchronizer: 0%** (0/0)
-- **Handshake Synchronizer: 0%** (0/0)
+- **Synchronous Edge Detector: 100%** (3/3)
 
 #### Interfaces
 
-- **UART TX: 0%** (0/0)
-- **UART RX: 0%** (0/0)
-- **SPI: 0%** (0/0)
-- **I2C: 0%** (0/0)
-- **FIFO: 67%** (2/3)
+- **UART: 22%** (2/9)
+- **SPI: 0%** (0/3)
+- **I2C: 0%** (0/3)
+
+#### Memory
+
+- **FIFO: 100%** (3/3)
+- **Single-Port RAM: 100%** (3/3)
+- **Async FIFO: 0%** (0/3)
+
+#### Sequential
+
+- **Counter: 0%** (0/3)
+- **D Flip-Flop: 67%** (2/3)
+- **Register: 100%** (3/3)
+- **Shift Register: 100%** (3/3)
 
 <!-- PROGRESS:END -->
 
@@ -92,151 +101,15 @@ Do not manually edit the generated progress section.
 
 # Modules
 
-## Combinational
-
-### MUX
-
-* [X] RTL
-* [X] Testbench
-* [X] README
-
-### Decoder
-
-* [X] RTL
-* [X] Testbench
-* [X] README
-
-### Encoder
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Priority Encoder
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Comparator
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Full Adder
-
-* [X] RTL
-* [X] Testbench
-* [X] README
-
-### Ripple Carry Adder
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Barrel Shifter
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### ALU
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
----
-
-## Sequential
-
-### D Flip-Flop
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Register
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Counter
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Shift Register
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
----
-
-## Control
-
-### FSM
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Sequence Detector
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Arbiter
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
----
-
-## Memory
-
-### Single-Port RAM
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### FIFO
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### FWFT FIFO
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### Async FIFO
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
----
-
 ## CDC
 
-### 2FF Synchronizer
+### Pulse Synchronizer
 
 * [ ] RTL
 * [ ] Testbench
 * [ ] README
 
-### Pulse Synchronizer
+### 2FF Synchronizer
 
 * [ ] RTL
 * [ ] Testbench
@@ -250,19 +123,103 @@ Do not manually edit the generated progress section.
 
 ---
 
+## Combinational
+
+### ALU
+
+* [ ] RTL
+* [ ] Testbench
+* [ ] README
+
+### Full Adder
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+### RCA
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+### Barrel Shifter
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+### Comparator
+
+* [ ] RTL
+* [ ] Testbench
+* [ ] README
+
+### Decoder
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+### Encoder
+
+* [ ] RTL
+* [ ] Testbench
+* [ ] README
+
+### MUX
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+---
+
+## Control
+
+### Arbiter
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+### FSM
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+### Sequence Detector
+
+* [ ] RTL
+* [ ] Testbench
+* [ ] README
+
+---
+
+## Edge Detection
+
+### Synchronous Edge Detector
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+---
+
 ## Interfaces
 
-### UART TX
+### UART
 
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### UART RX
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
+* [ ] TX_RTL
+* [ ] TX_Testbench
+* [ ] TX_README
+* [X] RX_RTL
+* [X] RX_Testbench
+* [ ] RX_README
+* [ ] TOP_RTL
+* [ ] TOP_Testbench
+* [ ] TOP_README
 
 ### SPI
 
@@ -275,6 +232,56 @@ Do not manually edit the generated progress section.
 * [ ] RTL
 * [ ] Testbench
 * [ ] README
+
+---
+
+## Memory
+
+### FIFO
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+### Single-Port RAM
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+### Async FIFO
+
+* [ ] RTL
+* [ ] Testbench
+* [ ] README
+
+---
+
+## Sequential
+
+### Counter
+
+* [ ] RTL
+* [ ] Testbench
+* [ ] README
+
+### D Flip-Flop
+
+* [X] RTL
+* [ ] Testbench
+* [X] README
+
+### Register
+
+* [X] RTL
+* [X] Testbench
+* [X] README
+
+### Shift Register
+
+* [X] RTL
+* [X] Testbench
+* [X] README
 
 ---
 
