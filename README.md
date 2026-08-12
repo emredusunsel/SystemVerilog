@@ -10,11 +10,11 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 <!-- PROGRESS:START -->
 
-**Overall Progress: 68%**
+**Overall Progress: 71%**
 
-`██████████████░░░░░░` 68%
+`██████████████░░░░░░` 71%
 
-**Total: 57 / 84 completed**
+**Total: 60 / 84 completed**
 
 ### Category Progress
 
@@ -22,7 +22,7 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 - **Combinational: 100%** (24/24)
 - **Control: 100%** (9/9)
 - **Edge Detection: 100%** (3/3)
-- **Interfaces: 20%** (3/15)
+- **Interfaces: 40%** (6/15)
 - **Memory: 50%** (6/12)
 - **Sequential: 100%** (12/12)
 
@@ -57,7 +57,7 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 #### Interfaces
 
-- **UART: 33%** (3/9)
+- **UART: 67%** (6/9)
 - **SPI: 0%** (0/3)
 - **I2C: 0%** (0/3)
 
