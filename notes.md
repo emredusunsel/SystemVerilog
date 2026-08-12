@@ -10,3 +10,7 @@ examples/pattern_detector                   -> MOVED
 control/sequence_detector/*.sv              -> rename parameter SEQ to PATTERN
 cdc/sync_2ff.sv                             -> check tb and waveform. does it actuallt work as intented (current tb is ai)
 cdc/pulse_sync                              -> understand how this works and write it yourself (current version is AI) 
+
+interfaces/                                 -> rewrite tx if necessary.
+                                            -> rewrite tx_tb rx_tb top_tb
+                                            -> delete the ai one
