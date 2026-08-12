@@ -15,9 +15,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: true
+        uses: actions/checkout@v5
 
       - name: Calculate progress
         run: python3 progress.py
