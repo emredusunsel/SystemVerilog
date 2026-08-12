@@ -10,21 +10,21 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 <!-- PROGRESS:START -->
 
-**Overall Progress: 51%**
+**Overall Progress: 67%**
 
-`██████████░░░░░░░░░░` 51%
+`█████████████░░░░░░░` 67%
 
-**Total: 41 / 81 completed**
+**Total: 54 / 81 completed**
 
 ### Category Progress
 
 - **CDC: 0%** (0/9)
-- **Combinational: 62%** (15/24)
-- **Control: 67%** (6/9)
+- **Combinational: 88%** (21/24)
+- **Control: 100%** (9/9)
 - **Edge Detection: 100%** (3/3)
 - **Interfaces: 20%** (3/15)
 - **Memory: 67%** (6/9)
-- **Sequential: 67%** (8/12)
+- **Sequential: 100%** (12/12)
 
 ### Module Progress
 
@@ -40,16 +40,16 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 - **Full Adder: 100%** (3/3)
 - **RCA: 100%** (3/3)
 - **Barrel Shifter: 100%** (3/3)
-- **Comparator: 0%** (0/3)
+- **Comparator: 100%** (3/3)
 - **Decoder: 100%** (3/3)
-- **Encoder: 0%** (0/3)
+- **Encoder: 100%** (3/3)
 - **MUX: 100%** (3/3)
 
 #### Control
 
 - **Arbiter: 100%** (3/3)
 - **FSM: 100%** (3/3)
-- **Sequence Detector: 0%** (0/3)
+- **Sequence Detector: 100%** (3/3)
 
 #### Edge Detection
 
@@ -69,8 +69,8 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 #### Sequential
 
-- **Counter: 0%** (0/3)
-- **D Flip-Flop: 67%** (2/3)
+- **Counter: 100%** (3/3)
+- **D Flip-Flop: 100%** (3/3)
 - **Register: 100%** (3/3)
 - **Shift Register: 100%** (3/3)
 

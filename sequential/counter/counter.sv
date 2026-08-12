@@ -5,7 +5,7 @@ module counter #(
     input   logic               clk,
     input   logic               rstn,
     input   logic               en,
-    input   logic               ud,   // 0: up count, 1: down count
+    input   logic               dir,   // 0: up count, 1: down count
     output  logic   [WIDTH-1:0] q
 );
 
@@ -13,7 +13,7 @@ module counter #(
         if (!rstn)
             q <= '0;
         else if (en) begin
-            if (!ud)
+            if (!dir)
                 q <= q + 1'b1;
             else
                 q <= q - 1'b1;

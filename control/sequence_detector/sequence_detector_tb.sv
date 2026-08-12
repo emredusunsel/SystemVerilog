@@ -2,13 +2,13 @@
 
 module sequence_detector_tb;
 
-    localparam SEQ_LEN = 4;
-    localparam logic [SEQ_LEN-1:0] SEQ = 4'b1011;
+    localparam int                  SEQ_LEN = 4;
+    localparam logic [SEQ_LEN-1:0]  PATTERN = 4'b1011;
 
     logic clk, rstn, in, out;
 
     sequence_detector #(
-        .SEQ_LEN(SEQ_LEN), .SEQ(SEQ)
+        .SEQ_LEN(SEQ_LEN), .PATTERN(PATTERN)
     ) dut (
         .clk    (clk),
         .rstn   (rstn),

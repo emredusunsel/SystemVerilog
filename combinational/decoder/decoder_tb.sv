@@ -7,20 +7,20 @@ module decoder_tb;
 
     logic [DEPTH-1:0] addr;
     logic en;
-    logic [WIDTH-1:0] y;
+    logic [WIDTH-1:0] out;
 
     decoder #(
         .WIDTH(WIDTH), .DEPTH(DEPTH)
     ) dut (
         .addr   (addr),
         .en     (en),
-        .y      (y)
+        .out    (out)
     );
 
     initial begin
         // Print values whenever they change
-        $display("Time\t addr en  y");
-        $monitor("%0t\t  %d    %d  %b", $time, addr, en, y);
+        $display("Time\t addr en  out");
+        $monitor("%0t\t  %d    %d  %b", $time, addr, en, out);
 
         // Apply test vectors
         for (int i = 0; i < WIDTH; i++) begin

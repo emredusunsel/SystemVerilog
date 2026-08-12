@@ -4,7 +4,7 @@ module counter_tb;
 
     localparam int WIDTH = 4;
 
-    logic clk, rstn, en, ud;
+    logic clk, rstn, en, dir;
     logic [WIDTH-1:0] q;
 
     counter #(
@@ -13,7 +13,7 @@ module counter_tb;
         .clk    (clk),
         .rstn   (rstn),
         .en     (en),
-        .ud     (ud),
+        .dir    (dir),
         .q      (q)
     );
 
@@ -21,14 +21,14 @@ module counter_tb;
     always #5 clk = ~clk;
 
     initial begin
-        $display("Time\t rstn en ud q");
+        $display("Time\t rstn en dir q");
         $monitor("%0t\t %b    %b  %b  %d",
-                 $time, rstn, en, ud, q);
+                 $time, rstn, en, dir, q);
 
         // Reset
         rstn    = 0;
         en      = 0;
-        ud      = 0;
+        dir     = 0;
 
         #10;
 
@@ -43,7 +43,7 @@ module counter_tb;
         en = 0;
         #20;
 
-        ud = 1;
+        dir = 1;
 
         // Count down
         en = 1;

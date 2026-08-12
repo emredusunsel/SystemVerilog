@@ -1,7 +1,7 @@
 
 module sequence_detector #(
-    parameter int SEQ_LEN = 4,
-    parameter logic [SEQ_LEN-1:0] SEQ = 4'b1011
+    parameter int                   SEQ_LEN = 4,
+    parameter logic [SEQ_LEN-1:0]   PATTERN = 4'b1011
 ) (
     input   logic   clk,
     input   logic   rstn,
@@ -19,6 +19,6 @@ module sequence_detector #(
         end
     end
 
-    assign out = (seq_mem == SEQ) ? 1 : 0;
+    assign out = (seq_mem == PATTERN) ? 1 : 0;
 
 endmodule

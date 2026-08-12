@@ -5,9 +5,9 @@ module decoder #(
 ) (
     input   logic   [DEPTH-1:0] addr,
     input   logic               en,
-    output  logic   [WIDTH-1:0] y
+    output  logic   [WIDTH-1:0] out
 );
 
-    assign y = en ? ({{(WIDTH-1){1'b0}}, 1'b1} << addr) : '0;
+    assign out = en ? ({{(WIDTH-1){1'b0}}, 1'b1} << addr) : '0;
 
 endmodule
