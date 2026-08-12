@@ -98,41 +98,17 @@ Do not manually edit the generated progress section.
 
 ## Combinational
 
-### AND Gate
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### OR Gate
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### XOR Gate
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
-### NOT Gate
-
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
-
 ### MUX
 
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
+* [X] RTL
+* [X] Testbench
+* [X] README
 
 ### Decoder
 
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
+* [X] RTL
+* [X] Testbench
+* [X] README
 
 ### Encoder
 
@@ -154,9 +130,9 @@ Do not manually edit the generated progress section.
 
 ### Full Adder
 
-* [ ] RTL
-* [ ] Testbench
-* [ ] README
+* [X] RTL
+* [X] Testbench
+* [X] README
 
 ### Ripple Carry Adder
 
