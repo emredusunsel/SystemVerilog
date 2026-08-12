@@ -5,9 +5,11 @@ A collection of simple, reusable RTL/SystemVerilog designs.
 ## Progress
 
 <!-- PROGRESS:START -->
-**Overall Progress: 0%**
+**Overall Progress: 12%**
 
-- Total: 0 / 0 completed
+`██░░░░░░░░░░░░░░░░░░` 12%
+
+- Total: 4 / 33 completed
 <!-- PROGRESS:END -->
 
 ## Modules
