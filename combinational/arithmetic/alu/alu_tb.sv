@@ -4,205 +4,164 @@ module alu_tb;
 
     localparam int WIDTH = 8;
 
-    logic [WIDTH-1:0] a, b;
+    logic [WIDTH-1:0] a;
+    logic [WIDTH-1:0] b;
     alu_op_t          op;
+
     logic [WIDTH-1:0] out;
-    logic zero, carry, of, neg;
+    logic             zero;
+    logic             carry;
+    logic             of;
+    logic             neg;
 
     alu #(
         .WIDTH(WIDTH)
     ) dut (
-        .a    (a),
-        .b    (b),
-        .op   (op),
-        .out  (out),
-        .zero (zero),
-        .carry(carry),
-        .of   (of),
-        .neg  (neg)
+        .a     (a),
+        .b     (b),
+        .op    (op),
+        .out   (out),
+        .zero  (zero),
+        .carry (carry),
+        .of    (of),
+        .neg   (neg)
     );
+
+    integer i = 0;
 
     task automatic check(
+        input alu_op_t          test_op,
+        input logic [WIDTH-1:0] test_a,
+        input logic [WIDTH-1:0] test_b,
         input logic [WIDTH-1:0] expected_out,
-        input logic             expected_zero,
         input logic             expected_carry,
-        input logic             expected_of,
-        input logic             expected_neg
+        input logic             expected_of
     );
         begin
+            a  = test_a;
+            b  = test_b;
+            op = test_op;
+
             #1;
 
-            if ((out   !== expected_out)   ||
-                (zero  !== expected_zero)  ||
-                (carry !== expected_carry) ||
-                (of    !== expected_of)    ||
-                (neg   !== expected_neg)) begin
+            if (out !== expected_out ||
+                carry !== expected_carry ||
+                of !== expected_of) begin
 
-                $display("FAIL: op=%s a=%h b=%h",
-                         op.name(), a, b);
+                $display("FAIL: op=%s a=%h b=%h | out=%h carry=%b of=%b",
+                         test_op.name(), a, b, out, carry, of);
 
-                $display("      OUT=%h ZERO=%b CARRY=%b OF=%b NEG=%b",
-                         out, zero, carry, of, neg);
-
-                $display("EXPECTED: OUT=%h ZERO=%b CARRY=%b OF=%b NEG=%b",
-                         expected_out,
-                         expected_zero,
-                         expected_carry,
-                         expected_of,
-                         expected_neg);
+                $display("      expected: out=%h carry=%b of=%b",
+                         expected_out, expected_carry, expected_of);
 
                 $fatal;
             end
 
-            $display("PASS: op=%s a=%h b=%h -> out=%h zero=%b carry=%b of=%b neg=%b",
-                     op.name(), a, b, out, zero, carry, of, neg);
+            if (zero !== (expected_out == '0)) begin
+                $display("FAIL: zero flag incorrect");
+                $fatal;
+            end
+
+            if (neg !== expected_out[WIDTH-1]) begin
+                $display("FAIL: neg flag incorrect");
+                $fatal;
+            end
+
+            $display("TEST %0d PASS: op=%s a=%h b=%h | out=%h carry=%b of=%b zero=%b neg=%b",
+                     i, test_op.name(), a, b,
+                     out, carry, of, zero, neg);
         end
+
+        i = i + 1;
     endtask
 
 
     initial begin
 
-        $dumpfile("wave.vcd");
-        $dumpvars(0, alu_tb);
-
-        // --------------------------------------------------
+        // ----------------
         // ADD
-        // --------------------------------------------------
+        // ----------------
 
-        // 5 + 3 = 8
-        a  = 8'd5;
-        b  = 8'd3;
-        op = ADD_OP;
-        check(8'd8, 1'b0, 1'b0, 1'b0, 1'b0);
+        check(ADD_OP, 8'h05, 8'h03, 8'h08, 1'b0, 1'b0);     // TEST 0
 
-        // 255 + 1 = 0, carry
-        a  = 8'hFF;
-        b  = 8'h01;
-        op = ADD_OP;
-        check(8'h00, 1'b1, 1'b1, 1'b0, 1'b0);
+        // Carry: 255 + 1 = 256
+        check(ADD_OP, 8'hFF, 8'h01, 8'h00, 1'b1, 1'b0);     // TEST 1
 
-        // 127 + 1 = -128 -> signed overflow
-        a  = 8'h7F;
-        b  = 8'h01;
-        op = ADD_OP;
-        check(8'h80, 1'b0, 1'b0, 1'b1, 1'b1);
+        // Signed overflow: 127 + 1 = -128
+        check(ADD_OP, 8'h7F, 8'h01, 8'h80, 1'b0, 1'b1);     // TEST 2
 
-        // -128 + (-1) = 127 -> signed overflow
-        a  = 8'h80;
-        b  = 8'hFF;
-        op = ADD_OP;
-        check(8'h7F, 1'b0, 1'b1, 1'b1, 1'b0);
-
-
-        // --------------------------------------------------
+        // ----------------
         // SUB
-        // --------------------------------------------------
+        // ----------------
 
-        // 5 - 3 = 2
-        a  = 8'd5;
-        b  = 8'd3;
-        op = SUB_OP;
-        check(8'd2, 1'b0, 1'b1, 1'b0, 1'b0);
+        check(SUB_OP, 8'h08, 8'h03, 8'h05, 1'b1, 1'b0);     // TEST 3
 
-        // 3 - 5 = -2
-        a  = 8'd3;
-        b  = 8'd5;
-        op = SUB_OP;
-        check(8'hFE, 1'b0, 1'b0, 1'b0, 1'b1);
+        // 3 - 8 = -5
+        check(SUB_OP, 8'h03, 8'h08, 8'hFB, 1'b0, 1'b0);     // TEST 4
 
-        // 127 - (-1) = 128 -> signed overflow
-        a  = 8'h7F;
-        b  = 8'hFF;
-        op = SUB_OP;
-        check(8'h80, 1'b0, 1'b0, 1'b1, 1'b1);
+        // Signed overflow: 127 - (-1) = 128
+        check(SUB_OP, 8'h7F, 8'hFF, 8'h80, 1'b0, 1'b1);     // TEST 5
 
-        // -128 - 1 = 127 -> signed overflow
-        a  = 8'h80;
-        b  = 8'h01;
-        op = SUB_OP;
-        check(8'h7F, 1'b0, 1'b1, 1'b1, 1'b0);
+        // ----------------
+        // LOGICAL
+        // ----------------
 
-        // 5 - 5 = 0
-        a  = 8'd5;
-        b  = 8'd5;
-        op = SUB_OP;
-        check(8'h00, 1'b1, 1'b1, 1'b0, 1'b0);
+        check(AND_OP, 8'hAA, 8'h0F, 8'h0A, 1'b0, 1'b0);     // TEST 6
 
+        check(OR_OP,  8'hA0, 8'h0F, 8'hAF, 1'b0, 1'b0);     // TEST 7
 
-        // --------------------------------------------------
-        // AND
-        // --------------------------------------------------
+        check(XOR_OP, 8'hAA, 8'hFF, 8'h55, 1'b0, 1'b0);     // TEST 8
 
-        a  = 8'hAA;
-        b  = 8'h0F;
-        op = AND_OP;
-        check(8'h0A, 1'b0, 1'b0, 1'b0, 1'b0);
+        // ----------------
+        // SHIFTS
+        // ----------------
 
+        // 0000_0011 << 2 = 0000_1100
+        check(SLL_OP, 8'h03, 8'h02, 8'h0C, 1'b0, 1'b0);     // TEST 9
 
-        // --------------------------------------------------
-        // OR
-        // --------------------------------------------------
+        // 1000_0000 >> 2 = 0010_0000
+        check(SRL_OP, 8'h80, 8'h02, 8'h20, 1'b0, 1'b0);     // TEST 10
 
-        a  = 8'hA0;
-        b  = 8'h0F;
-        op = OR_OP;
-        check(8'hAF, 1'b0, 1'b0, 1'b0, 1'b1);
+        // Arithmetic right shift:
+        // 1000_0000 >>> 2 = 1110_0000
+        check(SRA_OP, 8'h80, 8'h02, 8'hE0, 1'b0, 1'b0);     // TEST 11
 
+        // ----------------
+        // SLT signed
+        // ----------------
 
-        // --------------------------------------------------
-        // XOR
-        // --------------------------------------------------
+        // 5 < 10
+        check(SLT_OP, 8'h05, 8'h0A, 8'h01, 1'b0, 1'b0);     // TEST 12
 
-        a  = 8'hAA;
-        b  = 8'hFF;
-        op = XOR_OP;
-        check(8'h55, 1'b0, 1'b0, 1'b0, 1'b0);
+        // -5 < 3
+        check(SLT_OP, 8'hFB, 8'h03, 8'h01, 1'b0, 1'b0);     // TEST 13
 
+        // 5 < -3 is false
+        check(SLT_OP, 8'h05, 8'hFD, 8'h00, 1'b0, 1'b0);     // TEST 14
 
-        // --------------------------------------------------
-        // NOT
-        // --------------------------------------------------
+        // ----------------
+        // SLTU unsigned
+        // ----------------
 
-        a  = 8'h00;
-        b  = 8'h00;
-        op = NOT_OP;
-        check(8'hFF, 1'b0, 1'b0, 1'b0, 1'b1);
+        // 5 < 10
+        check(SLTU_OP, 8'h05, 8'h0A, 8'h01, 1'b0, 1'b0);     // TEST 15
 
+        // 255 < 1 is false unsigned
+        check(SLTU_OP, 8'hFF, 8'h01, 8'h00, 1'b0, 1'b0);     // TEST 16
 
-        // --------------------------------------------------
-        // SHIFT LEFT
-        // --------------------------------------------------
+        // 1 < 255
+        check(SLTU_OP, 8'h01, 8'hFF, 8'h01, 1'b0, 1'b0);     // TEST 17
 
-        a  = 8'b0000_0001;
-        b  = 8'd2;
-        op = SHL_OP;
-        check(8'b0000_0100, 1'b0, 1'b0, 1'b0, 1'b0);
+        // ----------------
+        // ZERO FLAG
+        // ----------------
 
-
-        // --------------------------------------------------
-        // SHIFT RIGHT
-        // --------------------------------------------------
-
-        a  = 8'b1000_0000;
-        b  = 8'd2;
-        op = SHR_OP;
-        check(8'b0010_0000, 1'b0, 1'b0, 1'b0, 1'b0);
-
-
-        // --------------------------------------------------
-        // ZERO RESULT
-        // --------------------------------------------------
-
-        a  = 8'hAA;
-        b  = 8'hAA;
-        op = XOR_OP;
-        check(8'h00, 1'b1, 1'b0, 1'b0, 1'b0);
-
+        check(AND_OP, 8'hF0, 8'h0F, 8'h00, 1'b0, 1'b0);     // TEST 18
 
         $display("");
-        $display("================================");
-        $display("       ALL TESTS PASSED");
-        $display("================================");
+        $display("====================");
+        $display("     ALL TESTS PASS");
+        $display("====================");
 
         $finish;
     end

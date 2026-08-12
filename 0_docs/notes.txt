@@ -1,6 +1,6 @@
 
+README.md                                   -> update repo structure
 
-combinational/arithmetic/alu/alu.sv         -> change operations to more useful ones
 combinational/comparator/comparator_tb.sv   -> can be improved
 
 sequential/flip_flop/dff_tb                 -> can be simplified
@@ -19,3 +19,4 @@ fwft fifo
 
 clock generation
 debouncer
+

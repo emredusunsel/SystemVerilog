@@ -10,33 +10,33 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 <!-- PROGRESS:START -->
 
-**Overall Progress: 67%**
+**Overall Progress: 68%**
 
-`█████████████░░░░░░░` 67%
+`██████████████░░░░░░` 68%
 
-**Total: 54 / 81 completed**
+**Total: 57 / 84 completed**
 
 ### Category Progress
 
 - **CDC: 0%** (0/9)
-- **Combinational: 88%** (21/24)
+- **Combinational: 100%** (24/24)
 - **Control: 100%** (9/9)
 - **Edge Detection: 100%** (3/3)
 - **Interfaces: 20%** (3/15)
-- **Memory: 67%** (6/9)
+- **Memory: 50%** (6/12)
 - **Sequential: 100%** (12/12)
 
 ### Module Progress
 
 #### CDC
 
+- **Handshake Synchronizer: 0%** (0/3)
 - **Pulse Synchronizer: 0%** (0/3)
 - **2FF Synchronizer: 0%** (0/3)
-- **Handshake Synchronizer: 0%** (0/3)
 
 #### Combinational
 
-- **ALU: 0%** (0/3)
+- **ALU: 100%** (3/3)
 - **Full Adder: 100%** (3/3)
 - **RCA: 100%** (3/3)
 - **Barrel Shifter: 100%** (3/3)
@@ -63,9 +63,10 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 #### Memory
 
-- **FIFO: 100%** (3/3)
-- **Single-Port RAM: 100%** (3/3)
 - **Async FIFO: 0%** (0/3)
+- **FIFO: 100%** (3/3)
+- **Dual-Port RAM: 0%** (0/3)
+- **Single-Port RAM: 100%** (3/3)
 
 #### Sequential
 
@@ -85,45 +86,59 @@ Run pthon3 progress.py
 
 ```text
 .
+├── 0_docs/
+│   └── ...
+│
+├── 1_examples/
+│   └── pattern_detector/
+│
+├── cdc/
+│   ├── handshake_sync/
+│   └── pulse_sync/
+│   └── sync_2ff/
+│
 ├── combinational/
 │   ├── arithmetic/
+│   │   ├── alu/
+│   │   ├── full_adder/
+│   │   └── rca/
+│   │
 │   ├── barrel_shifter/
 │   ├── comparator/
 │   ├── decoder/
 │   ├── encoder/
 │   └── mux/
 │
-├── sequential/
-│   ├── counter/
-│   ├── dff/
-│   ├── register/
-│   └── shift_register/
-│
 ├── control/
 │   ├── arbiter/
 │   ├── fsm/
 │   └── sequence_detector/
 │
-├── memory/
-│   ├── fifo/
-│   ├── fwft_fifo/
-│   ├── async_fifo/
-│   └── ram/
-│
-├── cdc/
-│   ├── 2ff_synchronizer/
-│   ├── pulse_synchronizer/
-│   └── handshake_synchronizer/
+├── edge_detection/
+│   └── sync_det/
 │
 ├── interfaces/
-│   ├── uart/
+│   ├── i2c/
 │   ├── spi/
-│   └── i2c/
+│   └── uart/
+│       ├── rx/
+│       ├── tx/
+│       └── uart/
 │
-├── progress.py
-└── .github/
-    └── workflows/
-        └── update-progress.yml
+├── memory/
+│   ├── async_fifo/
+│   ├── fifo/
+│   └── ram/
+│       ├── dual_port_ram/
+│       └── single_port_ram/
+│
+├── sequential/
+│   ├── counter/
+│   ├── flip_flop/
+│   ├── register/
+│   └── shift_register/
+│
+└── README.md
 ```
 
 ---
@@ -137,8 +152,7 @@ Example:
 ```text
 fifo/
 ├── fifo.sv
-├── tb/
-│   └── fifo_tb.sv
+├── fifo_tb.sv/
 └── README.md
 ```
 
@@ -153,12 +167,8 @@ The designs in this repository aim to follow these principles:
 * Synthesizable SystemVerilog
 * Simple and readable RTL
 * Parameterized designs where useful
-* Clear module interfaces
-* Explicit reset behavior
-* Synchronous design practices
 * Reusable modules
 * Separate RTL and verification code
 * Avoid unnecessary complexity
 
 The goal is to build a **compact and practical RTL library**, rather than an exhaustive collection of every possible hardware design.
-

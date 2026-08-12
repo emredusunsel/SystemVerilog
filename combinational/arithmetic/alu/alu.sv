@@ -1,13 +1,15 @@
 
-typedef enum logic [2:0] {
+typedef enum logic [3:0] {
     ADD_OP,
     SUB_OP,
     AND_OP,
     OR_OP,
     XOR_OP,
-    NOT_OP,
-    SHL_OP,
-    SHR_OP
+    SLL_OP,
+    SRL_OP,
+    SRA_OP,
+    SLT_OP,
+    SLTU_OP
 } alu_op_t;
 
 module alu #(
@@ -23,7 +25,8 @@ module alu #(
     output  logic               neg         // negative
 );
 
-    logic [WIDTH:0] temp;
+    logic [          WIDTH:0] temp;
+    logic [$clog2(WIDTH)-1:0] shamt;
 
     always_comb begin : alu_operations
         out     = '0;
@@ -49,9 +52,21 @@ module alu #(
             AND_OP: out = a & b;
             OR_OP:  out = a | b;
             XOR_OP: out = a ^ b;
-            NOT_OP: out = ~a;
-            SHL_OP: out = (a << b[$clog2(WIDTH)-1:0]);
-            SHR_OP: out = (a >> b[$clog2(WIDTH)-1:0]);
+            SLL_OP: out = a << shamt;
+            SRL_OP: out = a >> shamt;
+            SRA_OP: out = $signed(a) >>> shamt;
+            SLT_OP: begin
+                if ($signed(a) < $signed(b))
+                    out = {{(WIDTH-1){1'b0}}, 1'b1};
+                else
+                    out = '0;
+            end
+            SLTU_OP: begin
+                if (a < b)
+                    out = {{(WIDTH-1){1'b0}}, 1'b1};
+                else
+                    out = '0;
+            end
             default: begin
                 out     = '0;
                 carry   = 0;
@@ -61,6 +76,7 @@ module alu #(
         endcase
     end
 
+    assign shamt = b[$clog2(WIDTH)-1:0];
     assign zero = (out == 0);
     assign neg  = out[WIDTH-1];
 
