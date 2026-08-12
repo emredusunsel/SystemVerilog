@@ -77,6 +77,7 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 <!-- PROGRESS:END -->
 
 Progress is automatically calculated from [`PROGRESS.md`](PROGRESS.md).
+Run pthon3 progress.py
 
 ---
 
