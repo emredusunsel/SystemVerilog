@@ -36,22 +36,14 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 #### Combinational
 
-- **MUX: 0%** (0/0)
-- **Decoder: 0%** (0/0)
-- **Encoder: 0%** (0/0)
-- **Priority Encoder: 0%** (0/0)
-- **Comparator: 0%** (0/0)
-- **Full Adder: 0%** (0/0)
-- **Ripple Carry Adder: 0%** (0/0)
-- **Barrel Shifter: 0%** (0/0)
-- **ALU: 0%** (0/0)
-
-#### Sequential
-
-- **D Flip-Flop: 0%** (0/0)
-- **Register: 0%** (0/0)
-- **Counter: 0%** (0/0)
-- **Shift Register: 0%** (0/0)
+- **ALU: 0%** (0/3)
+- **Full Adder: 100%** (3/3)
+- **RCA: 100%** (3/3)
+- **Barrel Shifter: 100%** (3/3)
+- **Comparator: 0%** (0/3)
+- **Decoder: 100%** (3/3)
+- **Encoder: 0%** (0/3)
+- **MUX: 100%** (3/3)
 
 #### Control
 
