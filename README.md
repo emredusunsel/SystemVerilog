@@ -29,10 +29,6 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 #### Combinational
 
-- **AND Gate: 0%** (0/0)
-- **OR Gate: 0%** (0/0)
-- **XOR Gate: 0%** (0/0)
-- **NOT Gate: 0%** (0/0)
 - **MUX: 0%** (0/0)
 - **Decoder: 0%** (0/0)
 - **Encoder: 0%** (0/0)
