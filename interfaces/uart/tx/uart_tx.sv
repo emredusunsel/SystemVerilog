@@ -1,9 +1,6 @@
 
-// {1'b1(STOP BIT), data, 1'b0(START BIT)}
-// Transmits from LSB to MSB
-
 module uart_tx #(
-    parameter int CLK_FREQ  = 50_000_000,
+    parameter int CLK_FREQ = 50_000_000,
     parameter int BAUD_RATE = 115_200
 ) (
     input   logic           clk,
@@ -21,45 +18,105 @@ module uart_tx #(
     logic [                 3:0] bit_counter;
     logic [                 9:0] tx_shift_reg;
 
-    always_ff @(posedge clk or negedge rstn) begin : tx_block
+    typedef enum logic [1:0] {
+        IDLE,
+        SHIFT,
+        DONE
+    } state_t;
+
+    state_t state, next_state;
+
+    always_ff @(posedge clk or negedge rstn) begin : state_logic
+        if (!rstn)
+            state <= IDLE;
+        else
+            state <= next_state;
+    end
+
+    always_comb begin : next_state_logic
+        next_state = IDLE;
+
+        case (state)
+            IDLE: begin
+                if (tx_start)
+                    next_state = SHIFT;
+                else
+                    next_state = IDLE;
+            end
+
+            SHIFT: begin
+                if ((bit_counter == 4'd9) && (baud_counter == BAUD_DIV - 1))
+                    next_state = DONE;
+                else
+                    next_state = SHIFT;
+            end
+
+            DONE: next_state = IDLE;
+
+            default: next_state = IDLE;
+        endcase
+    end
+
+    always_ff @(posedge clk or negedge rstn) begin : datapath_seq_logic
         if (!rstn) begin
             baud_counter    <= '0;
             bit_counter     <= '0;
             tx_shift_reg    <= '1;
-            tx              <= 1'b1;
-            tx_busy         <= 1'b0;
-            tx_done         <= 1'b0;
         end else begin
-            tx_done <= 1'b0;
+            case (state)
+                IDLE: begin
+                    if (tx_start)
+                        tx_shift_reg <= {1'b1, data_in, 1'b0};
+                end
 
-            if (!tx_busy) begin
-                if (tx_start) begin
-                    tx_shift_reg    <= {1'b1, data_in, 1'b0};
-                    tx              <= 1'b0;
-                    tx_busy         <= 1'b1;
+                SHIFT: begin
+                    if (baud_counter == BAUD_DIV - 1) begin
+                        baud_counter <= '0;
+
+                        if (bit_counter == 4'd9) begin
+                            bit_counter     <= '0;
+                        end else begin
+                            bit_counter     <= bit_counter + 1;
+                            tx_shift_reg    <= {1'b1, tx_shift_reg[9:1]};
+                        end
+                    end else
+                        baud_counter <= baud_counter + 1'b1;
+                end
+
+                DONE: begin
                     baud_counter    <= '0;
                     bit_counter     <= '0;
+                    tx_shift_reg    <= '1;
                 end
-            end else begin
-                if (baud_counter == BAUD_DIV - 1) begin
-                    baud_counter <= '0;
 
-                    if (bit_counter == 4'd9) begin
-                        tx              <= 1'b1;
-                        tx_busy         <= 1'b0;
-                        tx_done         <= 1'b1;
-                        bit_counter     <= '0;
-                        tx_shift_reg    <= '1;
-                    end else begin
-                        bit_counter     <= bit_counter + 1'b1;
-                        tx_shift_reg    <= {1'b1, tx_shift_reg[9:1]};
-                        tx              <= tx_shift_reg[1];
-                    end
-                end else begin
-                    baud_counter <= baud_counter + 1'b1;
-                end
-            end
+                default: ;
+            endcase
         end
-    end 
+    end
+
+    always_comb begin : output_logic
+        tx      = 1;
+        tx_busy = 0;
+        tx_done = 0;
+        case (state)
+            IDLE: begin
+                tx      = 1;
+                tx_done = 0;
+            end
+
+            SHIFT: begin
+                tx      = tx_shift_reg[0];
+                tx_busy = 1;
+            end
+
+            DONE: begin
+                tx      = 1;
+                tx_busy = 0;
+                tx_done = 1;
+            end
+
+            default: ;
+        endcase
+    end
 
 endmodule

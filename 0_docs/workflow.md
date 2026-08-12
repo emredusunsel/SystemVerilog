@@ -105,3 +105,6 @@ yosys -p "read_verilog -sv and_gate.sv; synth; tee -o yosys_stat.txt stat"
 ```
 
 !!! OpenRoad\OpenLane 2
+
+
+python3 progress.py
