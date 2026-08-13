@@ -20,3 +20,5 @@ fwft fifo
 clock generation
 debouncer
 
+Add assertion or constraint on some files (etc. WIDTH)
+If WIDTH < 2, $clog2(WIDTH) returns 0, causing undefined shift amounts.
