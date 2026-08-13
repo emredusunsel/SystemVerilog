@@ -6,23 +6,12 @@ module uart_tb;
     localparam int BAUD_RATE = 1_000_000;
     localparam int BAUD_DIV  = CLK_FREQ / BAUD_RATE;
 
-    logic       clk;
-    logic       rstn;
-
+    logic clk, rstn;
     logic [7:0] tx_data;
-    logic       tx_start;
-    logic       tx;
-    logic       tx_busy;
-    logic       tx_done;
-
-    logic       rx;
+    logic tx_start, tx, tx_busy, tx_done;
+    logic rx;
     logic [7:0] rx_data;
-    logic       rx_valid;
-
-
-    // --------------------------------
-    // DUT
-    // --------------------------------
+    logic rx_valid;
 
     uart #(
         .CLK_FREQ  (CLK_FREQ),
@@ -30,13 +19,11 @@ module uart_tb;
     ) dut (
         .clk       (clk),
         .rstn      (rstn),
-
         .tx_data   (tx_data),
         .tx_start  (tx_start),
         .tx        (tx),
         .tx_busy   (tx_busy),
         .tx_done   (tx_done),
-
         .rx        (rx),
         .rx_data   (rx_data),
         .rx_valid  (rx_valid)
@@ -49,11 +36,6 @@ module uart_tb;
 
     assign rx = tx;
 
-
-    // --------------------------------
-    // Clock
-    // --------------------------------
-
     always #50 clk = ~clk;
 
 
@@ -62,7 +44,7 @@ module uart_tb;
     // --------------------------------
 
     always @(posedge clk) begin
-        if (rx_valid) begin
+        @(posedge rx_valid) begin
             $display(
                 "RX VALID | time=%0t | RX_DATA=%h",
                 $time,
@@ -110,14 +92,12 @@ module uart_tb;
         tx_data  = 8'h00;
         tx_start = 1'b0;
 
-
         // Reset
         #200;
         rstn = 1'b1;
 
         repeat (10)
             @(posedge clk);
-
 
         // --------------------------------
         // Test 1
@@ -138,7 +118,6 @@ module uart_tb;
 
         send_byte(8'h5A);
 
-
         // --------------------------------
         // Test 3
         // --------------------------------
@@ -148,7 +127,6 @@ module uart_tb;
 
         send_byte(8'hFF);
 
-
         // --------------------------------
         // Test 4
         // --------------------------------
@@ -157,7 +135,6 @@ module uart_tb;
         $display("Sending 0x00");
 
         send_byte(8'h00);
-
 
         // --------------------------------
         // Finish
@@ -179,18 +156,18 @@ module uart_tb;
     // General monitor
     // --------------------------------
 
-    initial begin
-        $monitor(
-            "time=%0t | tx_data=%h | tx_start=%b | tx=%b | tx_busy=%b | tx_done=%b | rx_data=%h | rx_valid=%b",
-            $time,
-            tx_data,
-            tx_start,
-            tx,
-            tx_busy,
-            tx_done,
-            rx_data,
-            rx_valid
-        );
-    end
+    //initial begin
+    //    $monitor(
+    //        "time=%0t | tx_data=%h | tx_start=%b | tx=%b | tx_busy=%b | tx_done=%b | rx_data=%h | rx_valid=%b",
+    //        $time,
+    //        tx_data,
+    //        tx_start,
+    //        tx,
+    //        tx_busy,
+    //        tx_done,
+    //        rx_data,
+    //        rx_valid
+    //    );
+    //end
 
 endmodule

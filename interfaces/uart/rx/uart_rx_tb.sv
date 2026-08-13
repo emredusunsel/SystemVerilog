@@ -6,17 +6,9 @@ module uart_rx_tb;
     localparam int BAUD_RATE = 1_000_000;
     localparam int BAUD_DIV  = CLK_FREQ / BAUD_RATE;
 
-    logic       clk;
-    logic       rstn;
-    logic       rx;
-
+    logic clk, rstn, rx;
     logic [7:0] data_out;
-    logic       rx_valid;
-
-
-    // --------------------------------
-    // DUT
-    // --------------------------------
+    logic rx_valid;
 
     uart_rx #(
         .CLK_FREQ  (CLK_FREQ),
@@ -29,18 +21,7 @@ module uart_rx_tb;
         .rx_valid  (rx_valid)
     );
 
-
-    // --------------------------------
-    // Clock
-    // --------------------------------
-
-    // 10 MHz clock = 100 ns period
     always #50 clk = ~clk;
-
-
-    // --------------------------------
-    // Send one UART bit
-    // --------------------------------
 
     task send_bit(input logic bit_value);
         begin
@@ -50,11 +31,6 @@ module uart_rx_tb;
                 @(posedge clk);
         end
     endtask
-
-
-    // --------------------------------
-    // Send one UART byte
-    // --------------------------------
 
     task send_byte(input logic [7:0] data);
         begin
@@ -79,11 +55,6 @@ module uart_rx_tb;
         end
     endtask
 
-
-    // --------------------------------
-    // Test
-    // --------------------------------
-
     initial begin
 
         $dumpfile("wave.vcd");
@@ -93,7 +64,6 @@ module uart_rx_tb;
         rstn = 1'b0;
         rx = 1'b1;
 
-        // Reset
         #200;
         rstn = 1'b1;
 
@@ -104,33 +74,12 @@ module uart_rx_tb;
         $display("Sending 0xA5...");
         send_byte(8'hA5);
 
-        // Give DUT time to process
-        repeat (20)
-            @(posedge clk);
-
-        $display(
-            "RX: data_out=%h | rx_valid=%b",
-            data_out,
-            rx_valid
-        );
-
-
         // --------------------------------
         // Test 2
         // --------------------------------
 
         $display("Sending 0x5A...");
         send_byte(8'h5A);
-
-        repeat (20)
-            @(posedge clk);
-
-        $display(
-            "RX: data_out=%h | rx_valid=%b",
-            data_out,
-            rx_valid
-        );
-
 
         // --------------------------------
         // Test 3
@@ -139,36 +88,12 @@ module uart_rx_tb;
         $display("Sending 0xFF...");
         send_byte(8'hFF);
 
-        repeat (20)
-            @(posedge clk);
-
-        $display(
-            "RX: data_out=%h | rx_valid=%b",
-            data_out,
-            rx_valid
-        );
-
-
         // --------------------------------
         // Test 4
         // --------------------------------
 
         $display("Sending 0x00...");
         send_byte(8'h00);
-
-        repeat (20)
-            @(posedge clk);
-
-        $display(
-            "RX: data_out=%h | rx_valid=%b",
-            data_out,
-            rx_valid
-        );
-
-
-        // --------------------------------
-        // Finish
-        // --------------------------------
 
         $display("--------------------------------");
         $display("UART RX TESTBENCH FINISHED");
@@ -185,14 +110,21 @@ module uart_rx_tb;
     // Monitor
     // --------------------------------
 
+    //initial begin
+    //    $monitor(
+    //        "time=%0t | rx=%b | data_out=%h | rx_valid=%b",
+    //        $time,
+    //        rx,
+    //        data_out,
+    //        rx_valid
+    //    );
+    //end
+
     initial begin
-        $monitor(
-            "time=%0t | rx=%b | data_out=%h | rx_valid=%b",
-            $time,
-            rx,
-            data_out,
-            rx_valid
-        );
+        repeat(4) begin
+            @(posedge rx_valid)
+                $display("-----------@posedge rx_valid Data=%h-----------", data_out);
+        end
     end
 
 endmodule
