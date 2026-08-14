@@ -1,0 +1,78 @@
+Recommended implementation order
+
+    Async FIFO
+SPI Master + Slave
+CSR / Memory-Mapped Register Bank
+APB4 Slave
+FWFT FIFO
+Single-Port / Dual-Port RAM
+I2C Master + Slave
+DMA Controller
+CRC
+UART + FIFO / Flow Control
+Debouncer
+LFSR / PRNG
+LIFO / Stack
+AXI4-Lite Slave
+SPI Flash Controller
+
+SystemVerilog/
+│
+├── 1_examples/
+│   ├── spi_loopback/
+│   ├── uart_fifo/
+│   └── dma_demo/
+│
+├── cdc/
+│   └── async_fifo/
+│
+├── control/
+│   └── csr/
+│
+├── interfaces/
+│   ├── spi/
+│   │   ├── spi_master.sv
+│   │   ├── spi_slave.sv
+│   │   └── spi_tb.sv
+│   │
+│   ├── i2c/
+│   │   ├── i2c_master.sv
+│   │   ├── i2c_slave.sv
+│   │   └── i2c_tb.sv
+│   │
+│   ├── apb/
+│   │   ├── apb_slave.sv
+│   │   └── apb_tb.sv
+│   │
+│   └── axi/
+│       ├── axi_lite_slave.sv
+│       └── axi_lite_tb.sv
+│
+├── memory/
+│   ├── fifo/
+│   │   ├── fwft_fifo.sv
+│   │   └── fwft_fifo_tb.sv
+│   │
+│   ├── ram/
+│   │   ├── spram.sv
+│   │   ├── spram_tb.sv
+│   │   ├── tdp_ram.sv
+│   │   └── tdp_ram_tb.sv
+│   │
+│   └── lifo/
+│
+├── util/
+│   ├── crc/
+│   │   ├── crc8.sv
+│   │   ├── crc16.sv
+│   │   └── crc32.sv
+│   │
+│   ├── debouncer/
+│   │
+│   ├── gray/
+│   │
+│   ├── lfsr/
+│   │
+│   └── clk_divider/
+│
+└── dma/

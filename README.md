@@ -10,26 +10,27 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 <!-- PROGRESS:START -->
 
-**Overall Progress: 75%**
+**Overall Progress: 79%**
 
-`███████████████░░░░░` 75%
+`████████████████░░░░` 79%
 
-**Total: 63 / 84 completed**
+**Total: 66 / 84 completed**
 
 ### Category Progress
 
-- **CDC: 0%** (0/9)
+- **CDC: 25%** (3/12)
 - **Combinational: 100%** (24/24)
 - **Control: 100%** (9/9)
 - **Edge Detection: 100%** (3/3)
 - **Interfaces: 60%** (9/15)
-- **Memory: 50%** (6/12)
+- **Memory: 67%** (6/9)
 - **Sequential: 100%** (12/12)
 
 ### Module Progress
 
 #### CDC
 
+- **Async FIFO: 100%** (3/3)
 - **Handshake Synchronizer: 0%** (0/3)
 - **Pulse Synchronizer: 0%** (0/3)
 - **2FF Synchronizer: 0%** (0/3)
@@ -63,7 +64,6 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 #### Memory
 
-- **Async FIFO: 0%** (0/3)
 - **FIFO: 100%** (3/3)
 - **Dual-Port RAM: 0%** (0/3)
 - **Single-Port RAM: 100%** (3/3)
@@ -93,6 +93,7 @@ Run pthon3 progress.py
 │   └── pattern_detector/
 │
 ├── cdc/
+│   ├── async_fifo/
 │   ├── handshake_sync/
 │   └── pulse_sync/
 │   └── sync_2ff/
@@ -126,7 +127,6 @@ Run pthon3 progress.py
 │       └── uart/
 │
 ├── memory/
-│   ├── async_fifo/
 │   ├── fifo/
 │   └── ram/
 │       ├── dual_port_ram/
