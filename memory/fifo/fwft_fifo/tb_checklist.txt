@@ -1,0 +1,587 @@
+FWFT FIFO — TESTBENCH CHECKLIST
+================================
+
+Purpose
+-------
+Use this document as the behavioral contract for the FWFT FIFO testbench.
+
+Do NOT check internal pointers/counters as part of the main functional TB.
+Check the externally visible behavior:
+    - rd_data
+    - empty
+    - full
+
+The reference model should represent the logical FIFO contents.
+
+
+1. RESET
+--------
+
+Assert rstn = 0.
+
+Expected:
+    empty  = 1
+    full   = 0
+    rd_data = don't care
+
+After releasing reset with no read/write:
+    empty  = 1
+    full   = 0
+
+No data should spontaneously appear.
+
+
+2. FIRST WRITE INTO EMPTY FIFO
+------------------------------
+
+Initial:
+    empty = 1
+    full  = 0
+
+Apply:
+    wr_en   = 1
+    wr_data = A5
+    rd_en   = 0
+
+After the rising edge:
+    empty  = 0
+    full   = 0
+    rd_data = A5
+
+This is the fundamental FWFT behavior:
+the first written word becomes visible without asserting rd_en.
+
+
+3. DATA STABILITY WHEN NOT READING
+-----------------------------------
+
+State:
+    FIFO = [A5]
+    rd_data = A5
+    empty = 0
+
+Apply several cycles with:
+    wr_en = 0
+    rd_en = 0
+
+Expected every cycle:
+    rd_data = A5
+    empty   = 0
+
+The output must not advance just because the clock is running.
+
+
+4. READ A SINGLE-WORD FIFO
+---------------------------
+
+State:
+    FIFO = [A5]
+    rd_data = A5
+    empty = 0
+
+Apply:
+    rd_en = 1
+    wr_en = 0
+
+After the rising edge:
+    A5 is consumed
+    empty = 1
+
+rd_data may be don't-care/stale when empty unless a specific
+output value is defined by the design.
+
+
+5. MULTIPLE WRITES / FIFO ORDER
+-------------------------------
+
+Write:
+    A1
+    B2
+    C3
+    D4
+
+Expected:
+    FIFO = [A1 B2 C3 D4]
+    rd_data = A1
+    empty = 0
+    full = 1       (for DEPTH=4)
+
+Then read repeatedly.
+
+Expected sequence:
+    Before read #1: rd_data = A1
+    After read #1:  rd_data = B2
+    After read #2:  rd_data = C3
+    After read #3:  rd_data = D4
+    After read #4:  empty = 1
+
+The output must always represent the oldest unread word.
+
+
+6. FWFT OUTPUT CHANGES ONLY AFTER CONSUMPTION
+----------------------------------------------
+
+State:
+    FIFO = [A1 B2 C3]
+    rd_data = A1
+
+Assert:
+    rd_en = 1
+
+After the rising edge:
+    FIFO logically becomes [B2 C3]
+    rd_data = B2
+
+Then hold:
+    rd_en = 0
+
+Expected:
+    rd_data remains B2
+
+
+7. READ WHILE EMPTY
+-------------------
+
+State:
+    empty = 1
+
+Apply:
+    rd_en = 1
+    wr_en = 0
+
+Expected:
+    empty remains 1
+    no data is consumed
+    FIFO remains empty
+
+The read pointer must not logically advance.
+
+
+8. FULL FIFO
+------------
+
+For DEPTH=4:
+
+Write:
+    A
+    B
+    C
+    D
+
+Expected:
+    FIFO = [A B C D]
+    full = 1
+    empty = 0
+    rd_data = A
+
+Attempt another write:
+    wr_en = 1
+    wr_data = E
+    rd_en = 0
+
+Expected:
+    E is NOT accepted
+    FIFO remains [A B C D]
+    rd_data remains A
+    full remains 1
+
+Then read one word.
+
+Expected:
+    FIFO = [B C D]
+    rd_data = B
+    full = 0
+    empty = 0
+
+A subsequent write of E should then be accepted.
+
+
+9. FULL + SIMULTANEOUS READ/WRITE
+---------------------------------
+
+Start:
+    FIFO = [A B C D]
+    full = 1
+    rd_data = A
+
+Apply simultaneously:
+    rd_en = 1
+    wr_en = 1
+    wr_data = E
+
+Expected:
+    A is consumed
+    E is inserted
+    occupancy remains 4
+
+Result:
+    FIFO = [B C D E]
+    rd_data = B
+    empty = 0
+    full = 1
+
+This is an important corner case.
+
+
+10. EMPTY + SIMULTANEOUS READ/WRITE
+-----------------------------------
+
+Start:
+    FIFO = []
+    empty = 1
+
+Apply:
+    rd_en = 1
+    wr_en = 1
+    wr_data = A
+
+For the current design behavior:
+
+    A is written
+    the read does NOT consume A because the FIFO was empty
+    the newly written word becomes available
+
+Expected:
+    FIFO = [A]
+    empty = 0
+    rd_data = A
+
+On the next cycle, assert rd_en to consume A.
+
+Expected:
+    empty = 1
+
+
+11. PARTIALLY FULL + SIMULTANEOUS READ/WRITE
+---------------------------------------------
+
+Start:
+    FIFO = [A B C]
+    rd_data = A
+
+Apply:
+    rd_en = 1
+    wr_en = 1
+    wr_data = D
+
+Expected:
+    A is consumed
+    D is inserted
+
+Result:
+    FIFO = [B C D]
+    rd_data = B
+
+Occupancy remains 3.
+
+Repeat:
+    [B C D] -> read B + write E -> [C D E]
+    [C D E] -> read C + write F -> [D E F]
+
+
+12. POINTER WRAPAROUND
+----------------------
+
+For DEPTH=4:
+
+Write:
+    A
+    B
+    C
+    D
+
+Read:
+    A
+    B
+
+Now logically:
+    FIFO = [C D]
+
+Write:
+    E
+    F
+
+Expected:
+    FIFO = [C D E F]
+
+Then drain:
+
+    C
+    D
+    E
+    F
+
+The memory pointers must wrap correctly without changing
+the logical FIFO ordering.
+
+Repeat the wraparound multiple times.
+
+
+13. REPEATED FILL / DRAIN
+-------------------------
+
+Perform:
+
+    fill -> drain
+    fill -> drain
+    fill -> drain
+    ...
+
+Use different data for every round.
+
+Example:
+
+Round 1:
+    [A B C D]
+
+Round 2:
+    [11 22 33 44]
+
+Round 3:
+    [F0 F1 F2 F3]
+
+This catches stale pointer/state problems.
+
+
+14. EVERY OCCUPANCY LEVEL
+-------------------------
+
+For DEPTH=4, test:
+
+    occupancy = 0
+    occupancy = 1
+    occupancy = 2
+    occupancy = 3
+    occupancy = 4
+    occupancy = 3
+    occupancy = 2
+    occupancy = 1
+    occupancy = 0
+
+Expected:
+
+    occupancy    empty    full
+    ---------    -----    ----
+       0           1       0
+       1           0       0
+       2           0       0
+       3           0       0
+       4           0       1
+
+Repeat these transitions many times.
+
+
+15. WRITE ATTEMPTS WHILE FULL
+-----------------------------
+
+Fill FIFO:
+
+    [A B C D]
+
+Then repeatedly attempt:
+
+    write X
+    write Y
+    write Z
+
+without reading.
+
+Expected:
+    FIFO remains [A B C D]
+    rd_data remains A
+    full remains 1
+
+No unread data may be overwritten.
+
+
+16. CONTINUOUS READ / DRAIN
+---------------------------
+
+Fill:
+
+    [A B C D]
+
+Then hold:
+    rd_en = 1
+
+Expected:
+
+    cycle 1: current word = A
+    cycle 2: current word = B
+    cycle 3: current word = C
+    cycle 4: current word = D
+    after read #4: empty = 1
+
+This specifically tests that the read pointer advances exactly
+when a valid read occurs.
+
+
+17. RANDOMIZED TESTING
+----------------------
+
+Randomize:
+    wr_en
+    rd_en
+    wr_data
+
+Maintain a simple reference FIFO containing the expected
+logical contents.
+
+For each clock:
+
+A) wr_en=0, rd_en=0
+    Nothing happens.
+
+B) wr_en=1, rd_en=0
+    If not full:
+        push wr_data
+    If full:
+        ignore write
+
+C) wr_en=0, rd_en=1
+    If not empty:
+        pop oldest word
+    If empty:
+        ignore read
+
+D) wr_en=1, rd_en=1
+
+    If empty:
+        push wr_data
+        do NOT pop it immediately
+
+    If non-empty:
+        pop oldest word
+        push wr_data
+
+    If full:
+        pop oldest word
+        push wr_data
+        occupancy remains full
+
+
+18. RANDOMIZED CHECKS
+---------------------
+
+After every clock, check:
+
+    empty
+    full
+    rd_data
+
+Reference behavior:
+
+    empty <-> reference FIFO contains zero words
+    full  <-> reference FIFO contains DEPTH words
+
+If reference FIFO is non-empty:
+
+    rd_data == reference FIFO's oldest word
+
+If reference FIFO is empty:
+
+    rd_data should not be checked unless the RTL specification
+    explicitly defines its value.
+
+
+19. CORE FUNCTIONAL PROPERTIES
+------------------------------
+
+Property 1 — FWFT
+    Whenever FIFO becomes non-empty,
+    rd_data shows the oldest unread word.
+
+Property 2 — Data stability
+    If empty=0 and rd_en=0,
+    rd_data must remain the current oldest word.
+
+Property 3 — Read
+    If rd_en=1 and empty=0,
+    the current word is consumed and the next unread word
+    becomes rd_data.
+
+Property 4 — Empty protection
+    If empty=1 and rd_en=1,
+    nothing is consumed.
+
+Property 5 — Full protection
+    If full=1 and wr_en=1 and rd_en=0,
+    the write is rejected.
+
+Property 6 — Simultaneous read/write
+    When non-empty:
+        one word leaves
+        one word enters
+        occupancy stays unchanged.
+
+Property 7 — Empty + simultaneous read/write
+    For the current design:
+        the write is accepted
+        the newly written word is NOT immediately consumed.
+
+Property 8 — Ordering
+    If:
+        A B C D E F ...
+    are written,
+    they must be read:
+        A B C D E F ...
+
+    regardless of pointer wraparound.
+
+Property 9 — Occupancy
+    Always:
+        0 <= occupancy <= DEPTH
+
+    And:
+        empty <-> occupancy == 0
+        full  <-> occupancy == DEPTH
+
+
+20. REFERENCE MODEL MENTAL MODEL
+--------------------------------
+
+Do not make the reference model mimic the DUT's implementation.
+
+The reference model should simply represent:
+
+    [oldest] -> [next] -> [next] -> ... -> [newest]
+
+The DUT can use:
+    pointers
+    counters
+    flags
+    memory indexing
+    special FWFT logic
+
+The reference model only needs to answer:
+
+    What words should currently be in the FIFO?
+    What is the oldest unread word?
+    Is it empty?
+    Is it full?
+
+Use the abstract FIFO contents to determine the expected outputs.
+
+
+MINIMUM TEST SET
+----------------
+
+If you are tired and want to continue later, implement these first:
+
+    [ ] Reset
+    [ ] First write into empty
+    [ ] Data stable without rd_en
+    [ ] Single read
+    [ ] Multiple writes / ordering
+    [ ] Read until empty
+    [ ] Read while empty
+    [ ] Fill until full
+    [ ] Write while full
+    [ ] Full + simultaneous read/write
+    [ ] Empty + simultaneous read/write
+    [ ] Partial simultaneous read/write
+    [ ] Pointer wraparound
+    [ ] Randomized test
+
+If all of these pass, the FIFO has been tested against the major
+functional corner cases relevant to this design.

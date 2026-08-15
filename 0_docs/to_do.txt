@@ -16,6 +16,24 @@ LIFO / Stack
 AXI4-Lite Slave
 SPI Flash Controller
 
+New Order: Simple -> Complex
+    Async FIFO
+FWFT FIFO
+Single-Port RAM / Dual-Port RAM
+LIFO / Stack
+Gray-code utilities
+Debouncer
+LFSR / PRNG
+CRC
+SPI Master + Slave
+CSR / Register Bank
+APB4 Slave
+I2C Master + Slave
+UART + FIFO / Flow Control
+AXI4-Lite Slave
+DMA Controller
+SPI Flash Controller
+
 SystemVerilog/
 │
 ├── 1_examples/
