@@ -568,19 +568,19 @@ MINIMUM TEST SET
 
 If you are tired and want to continue later, implement these first:
 
-    [ ] Reset
-    [ ] First write into empty
-    [ ] Data stable without rd_en
-    [ ] Single read
-    [ ] Multiple writes / ordering
-    [ ] Read until empty
-    [ ] Read while empty
-    [ ] Fill until full
-    [ ] Write while full
-    [ ] Full + simultaneous read/write
-    [ ] Empty + simultaneous read/write
-    [ ] Partial simultaneous read/write
-    [ ] Pointer wraparound
+    [x] Reset
+    [x] First write into empty
+    [x] Data stable without rd_en
+    [x] Single read
+    [x] Multiple writes / ordering
+    [x] Read until empty
+    [x] Read while empty
+    [x] Fill until full
+    [x] Write while full
+    [X] Full + simultaneous read/write
+    [X] Empty + simultaneous read/write
+    [X] Partial simultaneous read/write
+    [X] Pointer wraparound
     [ ] Randomized test
 
 If all of these pass, the FIFO has been tested against the major

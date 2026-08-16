@@ -63,9 +63,20 @@ module fwft_fifo #(
 
                 2'b11: begin        // SIMULTANEOUS READ/WRITE
                     mem[wr_ptr[ADDR_WIDTH:0]] <= wr_data;
-                    wr_ptr                    <= wr_ptr + 1;
-                    rd_ptr                    <= rd_ptr + 1;
-                    empty                     <= 0;
+
+                    if ((ptr_cnt == '0)) begin
+                        // FIFO was empty:
+                        // accept the write, but don't consume the new word
+                        ptr_cnt <= ptr_cnt + 1;
+                        wr_ptr <= wr_ptr + 1;
+                        empty  <= 0;
+                    end else begin
+                        // FIFO was non-empty:
+                        // consume one word and add one word
+                        wr_ptr <= wr_ptr + 1;
+                        rd_ptr <= rd_ptr + 1;
+                        empty  <= 0;
+                    end
                 end
 
                 default: empty <= 0;
@@ -73,11 +84,8 @@ module fwft_fifo #(
         end
     end
 
-    // empty in always_ff was "flag"
-    // empty was continuously assigned before
-    // assign empty = flag ? (wr_ptr == rd_ptr) : 0;
     assign rd_data = empty ? mem[rd_ptr[ADDR_WIDTH:0]-1'b1] : mem[rd_ptr[ADDR_WIDTH:0]];
-    
+
     assign full     = ((wr_ptr[PTR_WIDTH] != rd_ptr[PTR_WIDTH]) &&
                         wr_ptr[ADDR_WIDTH:0] == rd_ptr[ADDR_WIDTH:0]);
 
