@@ -4,7 +4,7 @@ Recommended implementation order
 SPI Master + Slave
 CSR / Memory-Mapped Register Bank
 APB4 Slave
-FWFT FIFO
+    FWFT FIFO
 Single-Port / Dual-Port RAM
 I2C Master + Slave
 DMA Controller
@@ -18,7 +18,7 @@ SPI Flash Controller
 
 New Order: Simple -> Complex
     Async FIFO
-FWFT FIFO
+    FWFT FIFO
 Single-Port RAM / Dual-Port RAM
 LIFO / Stack
 Gray-code utilities
