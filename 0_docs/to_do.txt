@@ -1,11 +1,11 @@
 Recommended implementation order
-
+-----------------------------
     Async FIFO
 SPI Master + Slave
 CSR / Memory-Mapped Register Bank
 APB4 Slave
     FWFT FIFO
-Single-Port / Dual-Port RAM
+    Single-Port / Dual-Port RAM
 I2C Master + Slave
 DMA Controller
 CRC
@@ -15,11 +15,14 @@ LFSR / PRNG
 LIFO / Stack
 AXI4-Lite Slave
 SPI Flash Controller
+===============================
+
 
 New Order: Simple -> Complex
+-----------------------------
     Async FIFO
     FWFT FIFO
-Single-Port RAM / Dual-Port RAM
+    Single-Port RAM / Dual-Port RAM
 LIFO / Stack
 Gray-code utilities
 Debouncer
@@ -33,6 +36,8 @@ UART + FIFO / Flow Control
 AXI4-Lite Slave
 DMA Controller
 SPI Flash Controller
+===============================
+
 
 SystemVerilog/
 │
@@ -42,7 +47,7 @@ SystemVerilog/
 │   └── dma_demo/
 │
 ├── cdc/
-│   └── async_fifo/
+│   └── async_fifo/****************
 │
 ├── control/
 │   └── csr/
@@ -67,11 +72,11 @@ SystemVerilog/
 │       └── axi_lite_tb.sv
 │
 ├── memory/
-│   ├── fifo/
+│   ├── fifo/***********************
 │   │   ├── fwft_fifo.sv
 │   │   └── fwft_fifo_tb.sv
 │   │
-│   ├── ram/
+│   ├── ram/***********************
 │   │   ├── spram.sv
 │   │   ├── spram_tb.sv
 │   │   ├── tdp_ram.sv
