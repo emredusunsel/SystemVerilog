@@ -10,11 +10,11 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 <!-- PROGRESS:START -->
 
-**Overall Progress: 80%**
+**Overall Progress: 83%**
 
-`████████████████░░░░` 80%
+`█████████████████░░░` 83%
 
-**Total: 72 / 90 completed**
+**Total: 75 / 90 completed**
 
 ### Category Progress
 
@@ -23,7 +23,7 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 - **Control: 100%** (9/9)
 - **Edge Detection: 100%** (3/3)
 - **Interfaces: 60%** (9/15)
-- **Memory: 80%** (12/15)
+- **Memory: 100%** (15/15)
 - **Sequential: 100%** (12/12)
 
 ### Module Progress
@@ -66,7 +66,7 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 - **FIFO: 100%** (3/3)
 - **FWFT FIFO: 100%** (3/3)
-- **LIFO: 0%** (0/3)
+- **LIFO: 100%** (3/3)
 - **Dual-Port RAM: 100%** (3/3)
 - **Single-Port RAM: 100%** (3/3)
 
@@ -132,10 +132,11 @@ Run pthon3 progress.py
 │   ├── fifo/
 │   │   ├── fifo/
 │   │   └── fwft_fifo/
+│   ├── lifo/ 
 │   └── ram/
 │       ├── dual_port_ram/
 │       └── single_port_ram/
-│
+│ 
 ├── sequential/
 │   ├── counter/
 │   ├── flip_flop/

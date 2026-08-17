@@ -12,7 +12,7 @@ CRC
 UART + FIFO / Flow Control
 Debouncer
 LFSR / PRNG
-LIFO / Stack
+    LIFO / Stack
 AXI4-Lite Slave
 SPI Flash Controller
 ===============================
@@ -23,7 +23,7 @@ New Order: Simple -> Complex
     Async FIFO
     FWFT FIFO
     Single-Port RAM / Dual-Port RAM
-LIFO / Stack
+    LIFO / Stack
 Gray-code utilities
 Debouncer
 LFSR / PRNG
@@ -46,9 +46,6 @@ SystemVerilog/
 │   ├── uart_fifo/
 │   └── dma_demo/
 │
-├── cdc/
-│   └── async_fifo/****************
-│
 ├── control/
 │   └── csr/
 │
@@ -70,19 +67,6 @@ SystemVerilog/
 │   └── axi/
 │       ├── axi_lite_slave.sv
 │       └── axi_lite_tb.sv
-│
-├── memory/
-│   ├── fifo/***********************
-│   │   ├── fwft_fifo.sv
-│   │   └── fwft_fifo_tb.sv
-│   │
-│   ├── ram/***********************
-│   │   ├── spram.sv
-│   │   ├── spram_tb.sv
-│   │   ├── tdp_ram.sv
-│   │   └── tdp_ram_tb.sv
-│   │
-│   └── lifo/
 │
 ├── util/
 │   ├── crc/
