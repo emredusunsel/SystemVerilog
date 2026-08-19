@@ -11,7 +11,7 @@ DMA Controller
 CRC
 UART + FIFO / Flow Control
 Debouncer
-LFSR / PRNG
+    LFSR / PRNG
     LIFO / Stack
 AXI4-Lite Slave
 SPI Flash Controller
@@ -24,9 +24,8 @@ New Order: Simple -> Complex
     FWFT FIFO
     Single-Port RAM / Dual-Port RAM
     LIFO / Stack
-Gray-code utilities
 Debouncer
-LFSR / PRNG
+    LFSR
 CRC
 SPI Master + Slave
 CSR / Register Bank
@@ -36,6 +35,8 @@ UART + FIFO / Flow Control
 AXI4-Lite Slave
 DMA Controller
 SPI Flash Controller
+
+??? PRNG (was next to lfsr)
 ===============================
 
 
@@ -77,8 +78,6 @@ SystemVerilog/
 │   ├── debouncer/
 │   │
 │   ├── gray/
-│   │
-│   ├── lfsr/
 │   │
 │   └── clk_divider/
 │

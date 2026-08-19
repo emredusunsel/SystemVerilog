@@ -14,8 +14,6 @@ interfaces/uart                             -> rewrite tx_tb rx_tb top_tb
 
 Potential modules to be added:
 
-lifo
-fwft fifo
 
 clock generation
 debouncer

@@ -14,7 +14,7 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 `█████████████████░░░` 83%
 
-**Total: 75 / 90 completed**
+**Total: 77 / 93 completed**
 
 ### Category Progress
 
@@ -25,6 +25,7 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 - **Interfaces: 60%** (9/15)
 - **Memory: 100%** (15/15)
 - **Sequential: 100%** (12/12)
+- **Util: 67%** (2/3)
 
 ### Module Progress
 
@@ -76,6 +77,10 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 - **D Flip-Flop: 100%** (3/3)
 - **Register: 100%** (3/3)
 - **Shift Register: 100%** (3/3)
+
+#### Util
+
+- **LFSR: 67%** (2/3)
 
 <!-- PROGRESS:END -->
 
@@ -142,6 +147,9 @@ Run pthon3 progress.py
 │   ├── flip_flop/
 │   ├── register/
 │   └── shift_register/
+│
+├── util/
+│   └── lfsr/
 │
 └── README.md
 ```

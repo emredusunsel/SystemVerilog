@@ -95,22 +95,19 @@ module uart_tx #(
     end
 
     always_comb begin : output_logic
-        tx      = 1;
         tx_busy = 0;
         tx_done = 0;
         case (state)
             IDLE: begin
-                tx      = 1;
+                tx_busy = 0;
                 tx_done = 0;
             end
 
             SHIFT: begin
-                tx      = tx_shift_reg[0];
                 tx_busy = 1;
             end
 
             DONE: begin
-                tx      = 1;
                 tx_busy = 0;
                 tx_done = 1;
             end
@@ -118,5 +115,7 @@ module uart_tx #(
             default: ;
         endcase
     end
+
+    assign tx = (state == SHIFT) ? tx_shift_reg[0] : 1'b1;
 
 endmodule
