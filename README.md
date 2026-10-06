@@ -6,6 +6,11 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 ---
 
+# REMOVE THE .PY
+# CHANGE README.md FORMAT TO COMMENTS IN .SV
+
+---
+
 ## Progress
 
 <!-- PROGRESS:START -->
