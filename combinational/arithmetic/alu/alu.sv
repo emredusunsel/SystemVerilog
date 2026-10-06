@@ -1,3 +1,4 @@
+// conversion: alu_op_t => logic
 
 typedef enum logic [3:0] {
     ADD_OP,
@@ -15,23 +16,23 @@ typedef enum logic [3:0] {
 module alu #(
     parameter int WIDTH = 8
 ) (
-    input   logic   [WIDTH-1:0] a,
-    input   logic   [WIDTH-1:0] b,
-    input   alu_op_t            op,
-    output  logic   [WIDTH-1:0] out,
-    output  logic               zero,
-    output  logic               carry,
-    output  logic               of,         // overflow
-    output  logic               neg         // negative
+    input   logic   [WIDTH-1:0] a,      // First operand
+    input   logic   [WIDTH-1:0] b,      // Second operand
+    input   alu_op_t            op,     // Operation selection
+    output  logic   [WIDTH-1:0] out,    // Operation result
+    output  logic               zero,   // Zero flag
+    output  logic               carry,  // Carry flag
+    output  logic               of,     // Overflow flag
+    output  logic               neg     // Negative flag
 );
 
-    logic [          WIDTH:0] temp;
-    logic [$clog2(WIDTH)-1:0] shamt;
+    logic [          WIDTH:0] temp;     // +1 bit wide => carry calculation
+    logic [$clog2(WIDTH)-1:0] shamt;    // shift amount
 
     always_comb begin : alu_operations
         out     = '0;
-        carry   = 0;
-        of      = 0;
+        carry   =  0;
+        of      =  0;
         temp    = '0;
 
         case (op)
@@ -40,14 +41,14 @@ module alu #(
                 out     = temp[WIDTH-1:0];
                 carry   = temp[WIDTH];
                 of      = (a[WIDTH-1] == b[WIDTH-1]) &&
-                        (out[WIDTH-1] != a[WIDTH-1]);
+                          (out[WIDTH-1] != a[WIDTH-1]);
             end
             SUB_OP: begin
                 temp    = {1'b0, a} + {1'b0, ~b} + 1'b1;
                 out     = temp[WIDTH-1:0];
                 carry   = temp[WIDTH];
                 of      = (a[WIDTH-1] != b[WIDTH-1]) &&
-                        (out[WIDTH-1] != a[WIDTH-1]);
+                          (out[WIDTH-1] != a[WIDTH-1]);
             end
             AND_OP: out = a & b;
             OR_OP:  out = a | b;
@@ -76,8 +77,8 @@ module alu #(
         endcase
     end
 
-    assign shamt = b[$clog2(WIDTH)-1:0];
-    assign zero = (out == 0);
-    assign neg  = out[WIDTH-1];
+    assign shamt = b[$clog2(WIDTH) - 1:0];
+    assign zero  = (out == 0);
+    assign neg   = out[WIDTH - 1];
 
 endmodule

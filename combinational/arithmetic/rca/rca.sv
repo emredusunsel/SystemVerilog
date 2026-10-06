@@ -1,18 +1,18 @@
+// Ripple Carry Adder
 
 module rca #(
     parameter int WIDTH = 4
 ) (
-    input   logic   [WIDTH-1:0] a,
-    input   logic   [WIDTH-1:0] b,
-    input   logic               cin,
-    output  logic   [WIDTH-1:0] s,
-    output  logic               cout
+    input   logic   [WIDTH-1:0] a,      // First operand
+    input   logic   [WIDTH-1:0] b,      // Second operand
+    input   logic               cin,    // Initial carry-in
+    output  logic   [WIDTH-1:0] s,      // Sum
+    output  logic               cout    // Final carry-out
 );
 
-    logic [WIDTH:0] carry;
+    logic [WIDTH:0] carry;  // Carry propagation wire
 
     genvar i;
-
     generate
         for (i = 0; i < WIDTH; i++) begin
             full_adder fa(
