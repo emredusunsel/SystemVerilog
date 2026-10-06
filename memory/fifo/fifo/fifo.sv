@@ -1,20 +1,24 @@
+// First-In, First-Out
+
+// Active-low asynchronous reset.
+// A simultaneous valid read and write keeps occupancy unchanged.
 
 module fifo #(
-    parameter int WIDTH = 8,
-    parameter int DEPTH = 16
+    parameter int WIDTH = 8,    // Width of each stored word
+    parameter int DEPTH = 16    // Number of enries in the FIFO
 ) (
     input   logic               clk,
     input   logic               rstn,
-    input   logic   [WIDTH-1:0] data_i,
-    input   logic               wr_en,
-    input   logic               rd_en,
-    output  logic   [WIDTH-1:0] data_o,
-    output  logic               empty,
-    output  logic               full
+    input   logic   [WIDTH-1:0] data_i, // Data to write
+    input   logic               wr_en,  // Write enable
+    input   logic               rd_en,  // Read enable
+    output  logic   [WIDTH-1:0] data_o, // Data read from FIFO
+    output  logic               empty,  // Empty flag
+    output  logic               full    // Full flag
 );
 
-    logic [$clog2(DEPTH)-1:0] wr_ptr, rd_ptr;
-    logic [$clog2(DEPTH):0] count;
+    logic [$clog2(DEPTH)-1:0] wr_ptr, rd_ptr;   // Pointers
+    logic [$clog2(DEPTH):0] count;              // Occupancy counter
     logic [WIDTH-1:0] fifo_mem [DEPTH];
 
     always_ff @(posedge clk or negedge rstn) begin : fifo_control

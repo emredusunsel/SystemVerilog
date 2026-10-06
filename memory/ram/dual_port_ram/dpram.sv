@@ -1,19 +1,43 @@
+// Dual-Port RAM
+
+// Seperate read and write enables, allowing read and write
+//  operations to occur in the same clock cycle.
+// Reset is synchronous and doesn't reset the mem contents.
+// Independent read and write addresses.
+
+// | wr_en | rd_en | Address Relation | Operation                         |
+// |-------|-------|------------------|-----------------------------------|
+// | 0     | 0     | Any              | No operation                      |
+// | 1     | 0     | Any              | Write                             |
+// | 0     | 1     | Any              | Read                              |
+// | 1     | 1     | Different        | Read and write simultaneously     |
+// | 1     | 1     | Same             | Write new data and return wr_data |
+
+// *same addr operation*
+    // Write only:
+        // The new data is written to selected address.
+    // Read only:
+        // The existing memory contents are returned through rd_data.
+    // Simultaneous Read and Write:
+        // Write first, newly written value is returned on rd_data.
+
+
 
 module dpram #(
-    parameter int WIDTH = 8,
-    parameter int DEPTH = 16
+    parameter int WIDTH = 8,    // Number of bits per memory word
+    parameter int DEPTH = 16    // Number of memory locations
 ) (
     input   logic                       clk,
     input   logic                       rstn,
-    input   logic                       wr_en,
-    input   logic   [$clog2(DEPTH)-1:0] wr_addr,
-    input   logic   [        WIDTH-1:0] wr_data,
-    input   logic                       rd_en,
-    input   logic   [$clog2(DEPTH)-1:0] rd_addr,
-    output  logic   [        WIDTH-1:0] rd_data
+    input   logic                       wr_en,      // Write enable
+    input   logic   [$clog2(DEPTH)-1:0] wr_addr,    // Write address
+    input   logic   [        WIDTH-1:0] wr_data,    // Write data
+    input   logic                       rd_en,      // Read enable
+    input   logic   [$clog2(DEPTH)-1:0] rd_addr,    // Read address
+    output  logic   [        WIDTH-1:0] rd_data     // Read data
 );
     
-    // WIDTH constraint
+    // WIDTH constraint: WIDTH >= 1
     generate
         if ((WIDTH < 1)) begin
             initial
@@ -22,7 +46,7 @@ module dpram #(
         end
     endgenerate
 
-    // DEPTH constraint
+    // DEPTH constraint: DEPTH >= 2 and DEPTH is power of 2
     generate
         if ((DEPTH < 2) || ((DEPTH & (DEPTH - 1)) != 0)) begin
             initial
@@ -43,6 +67,7 @@ module dpram #(
                 if (rd_en)
                     rd_data <= mem[rd_addr];
             end else begin
+                // Lookup: *same addr operation*
                 if (wr_en && !rd_en)
                     mem[wr_addr] <= wr_data;
                 else if (!wr_en && rd_en)
