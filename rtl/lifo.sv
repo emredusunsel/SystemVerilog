@@ -29,6 +29,8 @@
     //               push_data_i.
     //              Stack remains full.
 
+`include "../include/param_checks.svh"
+
 module lifo #(
     parameter int WIDTH = 8,    // Number of bits per stack element
     parameter int DEPTH = 16    // Maximum number of elements
@@ -45,22 +47,11 @@ module lifo #(
 );
 
     // WIDTH constraint: WIDTH >= 1
-    generate
-        if ((WIDTH < 1)) begin
-            initial
-                $fatal(1, "Error: WIDTH must be >= 1. Current WIDTH = %0d",
-                    WIDTH);
-        end
-    endgenerate
+    `CHECK_GREATER_EQUAL(WIDTH, 1)
 
     // DEPTH constraint: DEPTH >=2 and DEPTH power of 2
-    generate
-        if ((DEPTH < 2) || ((DEPTH & (DEPTH - 1)) != 0)) begin
-            initial
-                $fatal(1, "Error: DEPTH must be >= 2 and a power of two. Current DEPTH = %0d",
-                    DEPTH);
-        end
-    endgenerate
+    `CHECK_GREATER_EQUAL(DEPTH, 2)
+    `CHECK_POWER_OF_TWO(DEPTH)
 
     // +1 bit for detection of flags
     localparam int PTR_WIDTH = $clog2(DEPTH) + 1;

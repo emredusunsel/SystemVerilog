@@ -52,6 +52,7 @@
     // Because the write pointer must cross the clock domain synchronizer,
     //  empty can remain asserted for a short period after a new write occurs.
 
+`include "../include/param_checks.svh"
 
 module async_fifo #(
     parameter int WIDTH = 8,    // Width of each FIFO entry
@@ -72,14 +73,8 @@ module async_fifo #(
 );
 
     // DEPTH constraint: DEPTH > 2 and DEPTH power of 2
-    generate
-        if ((DEPTH <= 2) || ((DEPTH & (DEPTH - 1)) != 0)) begin
-            initial begin
-                $fatal(1, "Error: DEPTH must be > 2 and a power of two. Current DEPTH = %0d",
-                    DEPTH);
-            end
-        end
-    endgenerate
+    `CHECK_GREATER_THAN(DEPTH, 2)
+    `CHECK_POWER_OF_TWO(DEPTH)
 
     localparam int ADDR_WIDTH = $clog2(DEPTH);      // Address width
     localparam int PTR_WIDTH  = $clog2(DEPTH) + 1;  // Pointer width

@@ -1,4 +1,4 @@
-// Pulse Synchronizes
+// Pulse Synchronizer
 
 module pulse_sync (
     input  logic clk_src_i,

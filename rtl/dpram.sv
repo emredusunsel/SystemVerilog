@@ -21,7 +21,8 @@
     // Simultaneous Read and Write:
         // Write first, newly written value is returned on rd_data_o.
 
-
+// Include made for current folder structure
+`include "../include/param_checks.svh"
 
 module dpram #(
     parameter int WIDTH = 8,    // Number of bits per memory word
@@ -38,22 +39,11 @@ module dpram #(
 );
     
     // WIDTH constraint: WIDTH >= 1
-    generate
-        if ((WIDTH < 1)) begin
-            initial
-                $fatal(1, "Error: WIDTH must be >= 1. Current WIDTH = %0d",
-                    WIDTH);
-        end
-    endgenerate
+    `CHECK_GREATER_EQUAL(WIDTH, 1)
 
     // DEPTH constraint: DEPTH >= 2 and DEPTH is power of 2
-    generate
-        if ((DEPTH < 2) || ((DEPTH & (DEPTH - 1)) != 0)) begin
-            initial
-                $fatal(1, "Error: DEPTH must be > 2 and a power of two. Current DEPTH = %0d",
-                    DEPTH);
-        end
-    endgenerate
+    `CHECK_GREATER_EQUAL(DEPTH, 2)
+    `CHECK_POWER_OF_TWO(DEPTH)
 
     logic [WIDTH-1:0] mem [0:DEPTH-1];
 
