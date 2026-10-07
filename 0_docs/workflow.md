@@ -1,5 +1,7 @@
 ## Run Simulation
 
+- Include verilator commands!
+
 ```bash
 iverilog -g2012 -o sim *.sv
 ```

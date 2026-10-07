@@ -1,3 +1,5 @@
+FOLDER STRUCTURE CHANGED TO rtl/ tb/
+
 Recommended implementation order
 -----------------------------
     Async FIFO

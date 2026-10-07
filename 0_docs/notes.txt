@@ -1,22 +1,2 @@
 
 README.md                                   -> update repo structure
-
-combinational/comparator/comparator_tb.sv   -> can be improved
-
-sequential/flip_flop/dff_tb                 -> can be simplified
-
-examples/pattern_detector                   -> MOVED
-
-cdc/sync_2ff.sv                             -> check tb and waveform. does it actually work as intented (current tb is ai)
-cdc/pulse_sync                              -> understand how this works and write it yourself (current version is AI) 
-
-interfaces/uart                             -> rewrite tx_tb rx_tb top_tb
-
-Potential modules to be added:
-
-
-clock generation
-debouncer
-
-Add assertion or constraint on some files (etc. WIDTH)
-If WIDTH < 2, $clog2(WIDTH) returns 0, causing undefined shift amounts.
