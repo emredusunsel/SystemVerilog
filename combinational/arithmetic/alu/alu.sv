@@ -1,3 +1,5 @@
+// ALU
+
 // conversion: alu_op_t => logic
 
 typedef enum logic [3:0] {

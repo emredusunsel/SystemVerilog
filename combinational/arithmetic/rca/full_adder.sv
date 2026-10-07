@@ -1,3 +1,4 @@
+// Full Adder
 
 module full_adder (
     input   logic   a,      // First operand
