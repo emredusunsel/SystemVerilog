@@ -1,13 +1,43 @@
+// UART Receiver
+
+// Receives 8-bit serial data using a configurable clock frequenct and baud rate.
+// Synchronizes the asynchronous rx input, detects the start bit, receives the
+//  8 data bits, checks the stop bit, and asserts rx_valid when a complete byte
+//  has been received.
+// LSB-first data reception.
+// 2-flip-flop input synchronizer.
+// Mid-bit sampling.
+// No parity bit.
+
+// The receiver expects an 8-bit UART frame with one start bit and one stop bit:
+//     Start    Data Bits (LSB first)    Stop
+//       0     D0 D1 D2 D3 D4 D5 D6 D7    1
+
+// The asycnhronous rx input passes through two flip-flops.
+// In the IDLE state, receiver waits for rx_sync2 to go low, since tx idle is HIGH.
+// After detecting the start bit, the receiver waits approximately half of a bit
+//  period before sampling(BUD_DIV / 2). This places the sample near the center
+//  of the start bit.
+// After detecting the start bit, the FSM enters the SHIFT state.
+// Each bit is sampled once per baud period and stored in rx_shift_reg:
+//      rx_shift_reg[bit_counter] <= rx_sync2;
+// The first received bit is stored in bit 0, matching the LSB-first UART format.
+// After receiving all 8 data bits, the receiver waits for the stop bit, which is
+//  expected to be HIGH. The receiver samples it approximately in the middle of
+//  the bit period.
+// After a valid stop bit is detected rx_valid is asserted, the received byte is 
+//  available through data_out. The receiver then returns to the IDLE state.
+
 
 module uart_rx #(
-    parameter int CLK_FREQ  = 50_000_000,
-    parameter int BAUD_RATE = 115_200
+    parameter int CLK_FREQ  = 50_000_000,   // System clock frequency
+    parameter int BAUD_RATE = 115_200       // UART baud rate
 ) (
     input   logic           clk,
     input   logic           rstn,
-    input   logic           rx,
-    output  logic   [7:0]   data_out,
-    output  logic           rx_valid
+    input   logic           rx,         // UART serial input
+    output  logic   [7:0]   data_out,   // Received byte
+    output  logic           rx_valid    // HIGH when a byte is successfully received
 );
     
     localparam int BAUD_DIV = CLK_FREQ / BAUD_RATE;
@@ -16,10 +46,10 @@ module uart_rx #(
     logic [                 3:0] bit_counter;
     logic [                 7:0] rx_shift_reg;
 
-    logic rx_sync1, rx_sync2;
-    logic stop_flag;
+    logic rx_sync1, rx_sync2;   // Synchronizers
+    logic stop_flag;            // Stop flag
 
-    logic sample;       // unnecessary, only for checking the timing purposes
+    logic sample;       // Unnecessary, only for checking the timing purposes
 
     typedef enum logic [1:0] {
         IDLE,
@@ -29,6 +59,7 @@ module uart_rx #(
 
     state_t state, next_state;
 
+    // Synchronization of asynchronous rx input
     always_ff @(posedge clk or negedge rstn) begin : ffsync
         if (!rstn) begin
             rx_sync1 <= 1;
@@ -51,6 +82,7 @@ module uart_rx #(
 
         case (state)
             IDLE: begin
+                // Detect start bit
                 if (!rx_sync2 && (baud_counter == ((BAUD_DIV / 2) - 1)))
                     next_state = SHIFT;
                 else
@@ -80,7 +112,8 @@ module uart_rx #(
         end else begin
             case (state)
                 IDLE: begin
-                    if (!rx_sync2) begin
+                    if (!rx_sync2) begin    // Detect start bit
+                        // Count half sample period to align the center of each UART bit
                         if (baud_counter == ((BAUD_DIV / 2) - 1)) begin
                             baud_counter    <= '0;
                             sample <= 1;
@@ -93,6 +126,7 @@ module uart_rx #(
 
                 SHIFT: begin
                     if (bit_counter < 4'd8) begin
+                        // Count full period since SHIFT state already started around center
                         if (baud_counter == (BAUD_DIV - 1)) begin
                             baud_counter                <= '0;
                             bit_counter                 <= bit_counter + 1;
@@ -102,7 +136,9 @@ module uart_rx #(
                             baud_counter <= baud_counter + 1;
                             sample <= 0;
                         end
+                    // Detect stop bit
                     end else if ((bit_counter == 4'd8) && (rx_sync2 == 1)) begin
+                        // Count half a period
                         if (baud_counter == ((BAUD_DIV / 2) - 1)) begin
                             baud_counter    <= '0;
                             stop_flag       <= 1;
