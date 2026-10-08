@@ -12,11 +12,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Verilator 5.05
+      - name: Install Verilator 5.052
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            fit autoconf make g++ flex bison \
+            git autoconf make g++ flex bison \
             help2man perl libfl-dev zlib1g-dev
           
           git clone --branch v5.052 --depth 1 \
