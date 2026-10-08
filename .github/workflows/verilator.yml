@@ -12,24 +12,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Verilator 5.052
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            git autoconf make g++ flex bison \
-            help2man perl libfl-dev zlib1g-dev
-          
-          git clone --branch v5.052 --depth 1 \
-            https://github.com/verilator/verilator.git /tmp/verilator
-          
-          cd /tmp/verilator
-          autoconf
-          ./configure
-          make -j 4
-          sudo make install
-
       - name: Check Verilator version
-        run: verilator --version
+        run: |
+          docker run --rm verilator/verilator:5.052 --version
 
       - name: Run DFF testbench
-        run: python3 scripts/run.py dff
+        run: |
+          docker run --rm \
+            --entrypoint /bin/bash \
+            -v "${{ github.workspace }}:/work" \
+            -w /work \
+            verilator/verilator:5.052 \
+            -c "python3 scripts/run.py dff"
