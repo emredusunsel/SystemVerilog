@@ -44,7 +44,7 @@
 // | DONE   | 1     | 0      | 1             | Current LFSR state |
 // | LOCKED | 0     | 1      | 0             | 0                  |
 
-module lfsr_temp #(
+module lfsr #(
     parameter int         WIDTH      = 4,           // Width of the LFSR
     parameter logic [3:0] POLYNOMIAL = 4'b1100      // Feedback polynomial mask
 ) (

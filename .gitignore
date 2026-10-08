@@ -1,0 +1,24 @@
+# Verilator build files and simulation executables
+/build/
+
+# Verilator output directory
+obj_dir/
+
+# Waveform files
+*.vcd
+*.fst
+
+# Coverage files
+coverage.dat
+coverage_*.dat
+coverage.info
+coverage.txt
+
+# Python cache
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Individual

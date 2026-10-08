@@ -1,4 +1,5 @@
 // D Flip-Flop
+`timescale 1ps/1ps
 
 module dff (
     input  logic clk_i,

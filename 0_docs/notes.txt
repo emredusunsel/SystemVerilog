@@ -1,2 +1,7 @@
 
 README.md                                   -> update repo structure
+
+pattern_detector misses the 110101 pattern within 01110101 because it loses the matching prefix after a third consecutive 1.
+uart_rx stalls with BAUD_DIV=8: casting the divider before subtracting one produces an unreachable counter comparison.
+fifo relies on power-of-two pointer wrapping without enforcing that restriction. 
+lfsr exposes WIDTH, but its polynomial and initial value remain fixed at four bits.
