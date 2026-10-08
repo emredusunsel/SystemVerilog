@@ -12,10 +12,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Verilator
+      - name: Install Verilator 5.05
         run: |
           sudo apt-get update
-          sudo apt-get install -y verilator
+          sudo apt-get install -y \
+            fit autoconf make g++ flex bison \
+            help2man perl libfl-dev zlib1g-dev
+          
+          git clone --branch v5.052 --depth 1 \
+            https://github.com/verilator/verilator.git /tmp/verilator
+          
+          cd /tmp/verilator
+          autoconf
+          ./configure
+          make -j 4
+          sudo make install
 
       - name: Check Verilator version
         run: verilator --version
