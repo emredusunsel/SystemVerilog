@@ -12,15 +12,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check Verilator version
-        run: |
-          docker run --rm verilator/verilator:5.052 --version
-
-      - name: Run DFF testbench
+      - name: Run Verilator CI
         run: |
           docker run --rm \
             --entrypoint /bin/bash \
             -v "${{ github.workspace }}:/work" \
             -w /work \
-            verilator/verilator:5.052 \
-            -c "python3 scripts/run.py dff"
+            verilator/verilator:v5.050 \
+            -c "verilator --version && python3 scripts/run.py dff"
