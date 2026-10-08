@@ -2,7 +2,18 @@ name: Verilator CI
 
 on:
   push:
+    paths:
+      - 'rtl/**'
+      - 'tb/**'
+      - 'scripts/**'
+      - '.github/workflows/verilator.yml'
+
   pull_request:
+    paths:
+      - 'rtl/**'
+      - 'tb/**'
+      - 'scripts/**'
+      - '.github/workflows/verilator.yml'
 
 jobs:
   test:
