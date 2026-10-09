@@ -1,5 +1,7 @@
 // Register
 
+`timescale 1ps/1ps
+
 module register #(
     parameter int               WIDTH = 8,
     parameter logic [WIDTH-1:0] RESET_VALUE = '0

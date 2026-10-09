@@ -1,13 +1,18 @@
+# Name shown in the repository's GitHub Actions tab.
 name: Verilator CI
 
+# Events that start this workflow.
 on:
+  # Run when a push changes any of the files listed below.
   push:
+    # ** includes all files and subfolders inside a directory.
     paths:
-      - 'rtl/**'
-      - 'tb/**'
-      - 'scripts/**'
-      - '.github/workflows/verilator.yml'
+      - 'rtl/**'                         # Hardware designs.
+      - 'tb/**'                          # Testbenches that check the designs.
+      - 'scripts/**'                     # Scripts that build and run the tests.
+      - '.github/workflows/verilator.yml' # This workflow itself.
 
+  # Also run when a pull request is opened or updated with these changes.
   pull_request:
     paths:
       - 'rtl/**'
@@ -15,19 +20,42 @@ on:
       - 'scripts/**'
       - '.github/workflows/verilator.yml'
 
+# Jobs describe the work GitHub Actions performs.
 jobs:
   test:
+    # Each test runs on its own GitHub-hosted Ubuntu machine.
     runs-on: ubuntu-latest
+    strategy:
+      # Let the other test finish even if one test fails.
+      fail-fast: false
+      matrix:
+        # Create one job for each name. Add more names here to test more modules.
+        # Each name must match rtl/<name>.sv and tb/<name>_tb.sv.
+        test: [dff, register]
 
+    # Each matrix job performs these steps in order.
     steps:
       - name: Checkout repository
+        # Download the repository files onto the job's machine.
         uses: actions/checkout@v4
 
-      - name: Run Verilator CI
+      # matrix.test is replaced with this job's test name: dff or register.
+      - name: Run ${{ matrix.test }} test
+        # The | below lets us write a shell command across multiple lines.
+        # A trailing backslash (\) continues the command on the next line.
+        # docker run starts a container with Verilator already installed.
+        # --rm removes the container after it finishes.
+        # --entrypoint /bin/bash runs the command using the Bash shell.
+        # -v makes the checked-out repository available at /work in the container.
+        # -w sets /work as the directory where the command runs.
+        # The version and sha256 digest select a fixed Verilator image.
+        # -c prints the version, then runs scripts/run.py for this job's test.
+        # && runs the Python script only if the version command succeeds.
+        # The script builds and simulates the design; a nonzero exit fails the job.
         run: |
           docker run --rm \
             --entrypoint /bin/bash \
             -v "${{ github.workspace }}:/work" \
             -w /work \
             verilator/verilator:v5.052@sha256:a5b73e2fce0b2c483396f3800940f33b6faa802331a061c21694dd27b7352120 \
-            -c "verilator --version && python3 scripts/run.py dff"
+            -c "verilator --version && python3 scripts/run.py ${{ matrix.test }}"
