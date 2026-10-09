@@ -59,3 +59,4 @@ jobs:
             -w /work \
             verilator/verilator:v5.052@sha256:a5b73e2fce0b2c483396f3800940f33b6faa802331a061c21694dd27b7352120 \
             -c "verilator --version && python3 scripts/run.py ${{ matrix.test }}"
+
