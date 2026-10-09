@@ -15,7 +15,6 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 # Module Structure
 
 
-
 ---
 
 # Design Principles
