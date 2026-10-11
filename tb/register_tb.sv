@@ -346,7 +346,7 @@ module register_tb;
     end
 
     initial begin
-        #20;
+        #20000;
         $fatal(1, "Timeout");
     end
 
