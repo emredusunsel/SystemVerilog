@@ -24,3 +24,4 @@ __pycache__/
 # Individual
 /sim
 /tb_reference
+/scripts/report_coverage.py

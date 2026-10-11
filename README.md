@@ -6,14 +6,23 @@ The repository focuses on simple, synthesizable RTL blocks commonly used in digi
 
 ---
 
+# PY SCRIPTS
 
-# ORDER LOW-MID-HIGH BASED ON DESIGN
-# RE-WRITE TESTBENCHS
+Verilator simulation:
+
+```bash
+python3 scripts/run.py dff
+```
+
+Coverage report (local):
+
+```bash
+python3 scripts/report_coverage.py dff
+```
 
 ---
 
-# Module Structure
-
+### TASK: Re-write Testbenchs
 
 ---
 
