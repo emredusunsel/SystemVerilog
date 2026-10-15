@@ -36,7 +36,7 @@ def run_test(name):
         "-o",  "../sim_"f"{name}",
         "-j", "4",
         "--binary",
-        "--timing",
+        "--trace",
         "--assert",
         "--coverage-user",
         "--top-module", f"{name}_tb",

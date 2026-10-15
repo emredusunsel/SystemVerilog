@@ -31,7 +31,7 @@ jobs:
       matrix:
         # Create one job for each name. Add more names here to test more modules.
         # Each name must match rtl/<name>.sv and tb/<name>_tb.sv.
-        test: [dff, register]
+        test: [dff, register, counter]
 
     # Each matrix job performs these steps in order.
     steps:
