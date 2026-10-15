@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Checkout repository
         # Download the selected branch onto this job's machine.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # matrix.test and matrix.width identify this job's test and width.
       - name: Run ${{ matrix.test }} test at width ${{ matrix.width }}

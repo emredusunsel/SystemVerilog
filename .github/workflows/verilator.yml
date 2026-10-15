@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Checkout repository
         # Download the repository files onto the job's machine.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # matrix.test is replaced with this job's test name: dff or register.
       - name: Run ${{ matrix.test }} test
