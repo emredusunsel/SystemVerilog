@@ -1,5 +1,7 @@
 // Shift Register
 
+`timescale 1ps/1ps
+
 module shift_register #(
     parameter int WIDTH = 8     // WIDTH >= 2
 ) (
