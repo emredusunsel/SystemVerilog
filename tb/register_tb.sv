@@ -1,8 +1,9 @@
 `timescale 1ps/1ps
 
-module register_tb;
+module register_tb #(
+    parameter int WIDTH = 8
+);
 
-    localparam int WIDTH = 8;
     localparam logic [WIDTH-1:0] RESET_VALUE = '0;
 
     localparam logic [WIDTH-1:0] MAX_VALUE = '1;

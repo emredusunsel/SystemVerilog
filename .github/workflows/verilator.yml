@@ -20,7 +20,7 @@ on:
       - 'scripts/**'
       - '.github/workflows/verilator.yml'
 
-  # Start the counter width sweep from the Actions tab when needed.
+  # Start the optional width sweep from the Actions tab when needed.
   workflow_dispatch:
 
 # Jobs describe the work GitHub Actions performs.
@@ -64,26 +64,38 @@ jobs:
             verilator/verilator:v5.052@sha256:a5b73e2fce0b2c483396f3800940f33b6faa802331a061c21694dd27b7352120 \
             -c "verilator --version && python3 scripts/run.py ${{ matrix.test }}"
 
-  # Run the counter test separately at each width when started from Actions.
-  counter_width_sweep:
+  # Run each listed test and width combination when started from Actions.
+  width_sweep:
     # A push or pull request does not start this optional job.
     if: github.event_name == 'workflow_dispatch'
-    # Each width gets its own GitHub-hosted Ubuntu machine.
+    # Each test and width combination gets its own Ubuntu machine.
     runs-on: ubuntu-latest
     strategy:
-      # Continue testing the other widths if one width fails.
+      # Continue testing the other combinations if one fails.
       fail-fast: false
       matrix:
-        # Add or remove values here to change the manually tested widths.
-        width: [2, 4, 8]
-    # Each width job checks out the code, then builds and runs the counter test.
+        # Give each test its own set of widths.
+        include:
+          - test: counter
+            width: 2
+          - test: counter
+            width: 4
+          - test: counter
+            width: 8
+          - test: register
+            width: 4
+          - test: register
+            width: 8
+          - test: register
+            width: 16
+    # Each combination checks out the code, then builds and runs its test.
     steps:
       - name: Checkout repository
         # Download the selected branch onto this job's machine.
         uses: actions/checkout@v4
 
-      # matrix.width is replaced by this job's width: 2, 4, or 8.
-      - name: Run counter test at width ${{ matrix.width }}
+      # matrix.test and matrix.width identify this job's test and width.
+      - name: Run ${{ matrix.test }} test at width ${{ matrix.width }}
         # Run Verilator in the same fixed Docker image as the default tests.
         # The width argument makes run.py pass -GWIDTH to Verilator.
         # The testbench file is not edited; a failed test fails this job.
@@ -93,5 +105,5 @@ jobs:
             -v "${{ github.workspace }}:/work" \
             -w /work \
             verilator/verilator:v5.052@sha256:a5b73e2fce0b2c483396f3800940f33b6faa802331a061c21694dd27b7352120 \
-            -c "verilator --version && python3 scripts/run.py counter ${{ matrix.width }}"
+            -c "verilator --version && python3 scripts/run.py ${{ matrix.test }} ${{ matrix.width }}"
 
