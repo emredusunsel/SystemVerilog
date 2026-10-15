@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent # ROOT = /SystemVerilog
 
 # Defines a function named `run_test`.
     # `name` is an argument supplied when calling the function.
-def run_test(name):
+def run_test(name, width=None):
     # Locate RTL and testbench files
     rtl = ROOT / "rtl" / f"{name}.sv"
     tb = ROOT / "tb" / f"{name}_tb.sv"
@@ -41,9 +41,10 @@ def run_test(name):
         "--coverage-user",
         "--top-module", f"{name}_tb",
         "--Mdir", str(build),
-        str(rtl),
-        str(tb)
     ]
+    if width is not None:
+        compile_cmd.append(f"-GWIDTH={width}")
+    compile_cmd.extend([str(rtl), str(tb)])
 
     # Execute the compilation
     print(f"[BUILD] {name}")
@@ -86,15 +87,14 @@ if __name__ == "__main__":
         # len(): Returns the number of elements in a collection.
             # python3 scripts/run.py dff => sys.argv = ["scripts/run.py", "dff"]
             # len(sys.argv) == 2
-    if len(sys.argv) != 2:
-        print("Usage: python3 run.py <test_name>")
+    if len(sys.argv) not in (2, 3) or (len(sys.argv) == 3 and (not sys.argv[2].isdigit() or int(sys.argv[2]) < 1)):
+        print("Usage: python3 run.py <test_name> [width]")
         sys.exit(1)
 
     # Start the test
         # Recall: sys.srgv[1] = "dff" => success = run_test("dff")
-    success = run_test(sys.argv[1])
+    success = run_test(sys.argv[1], int(sys.argv[2]) if len(sys.argv) == 3 else None)
 
     # Exit with the correct status.
     sys.exit(0 if success else 1)
 
-    

@@ -1,13 +1,15 @@
 `timescale 1ps/1ps
 
-module counter_tb;
-
-    localparam int WIDTH = 4;
+module counter_tb #(
+    parameter int WIDTH = 4
+);
 
     logic clk_i, rstn_i, en_i, dir_i;
     logic [WIDTH-1:0] q_o;
 
-    counter dut (
+    counter # (
+        .WIDTH(WIDTH)
+    ) dut (
         .*
     );
 
@@ -246,9 +248,9 @@ module counter_tb;
         @(negedge clk_i);
         
         // Count up through a full cycle
-        count_up_down(16, 1, 0);
+        count_up_down(2**WIDTH, 1, 0);
         // Count down through a full cycle
-        count_up_down(16, 1, 1);
+        count_up_down(2**WIDTH, 1, 1);
         // Hold in both directions
         count_up_down(5, 0, 0);
         count_up_down(5, 0, 1);
@@ -283,7 +285,7 @@ module counter_tb;
     // end
 
     initial begin
-        #20000;
+        #2000000;
         $fatal(1, "Timeout");
     end
 
