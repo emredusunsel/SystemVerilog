@@ -277,10 +277,10 @@ module counter_tb;
         $finish;
     end
 
-    initial begin
-        $dumpfile("wave.vcd");
-        $dumpvars(0, counter_tb);
-    end
+    // initial begin
+    //     $dumpfile("wave.vcd");
+    //     $dumpvars(0, counter_tb);
+    // end
 
     initial begin
         #20000;

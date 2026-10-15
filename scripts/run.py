@@ -72,6 +72,10 @@ def run_test(name):
         print(f"[FAIL] {name}: Simulation failed")
         return False
 
+    # Deletes the coverage data after successfully creating the text report.
+        # .unlink(): Removes the file at the specified path.
+    (ROOT / "coverage.dat").unlink()
+
     # Return success.
     print(f"[PASS] {name}")
     return True
